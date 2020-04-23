@@ -1,0 +1,27 @@
+footer {
+  position: absolute;
+  bottom: 0;
+}
+
+.footer-copyright, .footer-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-list {
+  margin: 1rem auto;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+}
+
+.social-icon {
+  width: 3rem;
+}

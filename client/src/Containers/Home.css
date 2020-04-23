@@ -1,0 +1,41 @@
+.signin-section, .login-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+footer {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-family: 'Kaushan Script', cursive;
+}
+
+h3, h4 {
+  font-family: 'Kaushan Script'
+}
+
+p {
+  font-family: 'Comic Neue', cursive;
+  font-size: larger;
+}
+
+small {
+  font-family: 'Comic Neue', cursive;
+}
+
+.btn-home {
+  margin: 0.5rem
+}
+
+.input-text {
+  max-width: 20rem;
+  margin: 0.3rem auto;
+}
