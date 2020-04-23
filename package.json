@@ -1,0 +1,28 @@
+{
+  "name": "moodle",
+  "version": "1.0.0",
+  "description": "Basic-MOODLE",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd ..",
+    "deploy": "cp -a client/build/. public/",
+    "postinstall": "npm run build && npm run deploy && echo 'Client built!'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AnthonyTC89/moodle.git"
+  },
+  "keywords": [
+    "moodle",
+    "education"
+  ],
+  "author": "AnthonyTC89",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AnthonyTC89/moodle/issues"
+  },
+  "homepage": "https://github.com/AnthonyTC89/moodle#readme"
+}
