@@ -1,4 +1,4 @@
-/* .btn-container {
+.btn-container {
   align-items: center;
   justify-content: space-between;
   width: -webkit-fill-available;
@@ -14,7 +14,7 @@
 }
 
 .btn-dropdown-menu {
-  text-align: center;
+  text-align: center !important;
 }
 
 .btn-dropdown-item {
@@ -24,4 +24,4 @@
 
 .dropdown-menu {
   position: absolute !important;
-} */
+}

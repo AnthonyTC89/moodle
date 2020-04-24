@@ -8,10 +8,13 @@ const defaultSession = {
   isLoggedIn: false,
 };
 
-const session = (state = defaultSession, { type, newSession }) => {
+const session = (state = defaultSession, { type, user }) => {
   switch (type) {
     case 'UPDATE_SESSION':
-      return newSession;
+      return {
+        user,
+        isLoggedIn: user != null,
+      };
     default:
       return state;
   }

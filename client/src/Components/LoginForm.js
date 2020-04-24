@@ -1,9 +1,10 @@
+/* eslint-disable camelcase */
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import updateSession from '../redux/actions/updateSession';
-import { HTTPresponses } from '../Info.json';
+// import { HTTPresponses } from '../Info.json';
 import './LoginForm.css';
 
 class LoginForm extends React.Component {
@@ -12,8 +13,9 @@ class LoginForm extends React.Component {
     this.state = {
       username: '',
       password: '',
-      errMessage: '',
-      btnLoading: false,
+      message: null,
+      error: null,
+      loading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,42 +27,45 @@ class LoginForm extends React.Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     this.setState({
-      errMessage: '',
-      btnLoading: true,
+      message: null,
+      error: null,
+      loading: true,
     });
-    const { username, password } = this.state;
-    const { changeSession } = this.props;
-    const params = { username, password };
-    axios.post('/api/users/login', params)
-      .then((res) => {
-        this.setState({
-          btnLoading: false,
-        });
-        const user = {
-          id: res.data.id,
-          username: res.data.username,
-          email: res.data.email,
-          status: res.data.status,
-        };
-        changeSession({ user, loggedIn: true });
-      })
-      .catch((err) => {
-        this.setState({
-          errMessage: `${HTTPresponses[err.response.status]}`,
-          btnLoading: false,
-        });
+    try {
+      const { username, password } = this.state;
+      const { changeSession } = this.props;
+      const data = { username, password_digest: password };
+      const res = await axios.post('/api/users/login', data);
+      const user = {
+        id: res.data.id,
+        username: res.data.username,
+        email: res.data.email,
+        status: res.data.status,
+      };
+      this.setState({
+        loading: false,
       });
+      changeSession(user);
+    } catch (err) {
+      this.setState({
+        error: 'error',
+        loading: false,
+      });
+    }
   }
 
   render() {
-    const { username, password, btnLoading, errMessage } = this.state;
+    const { username, password, loading, message, error } = this.state;
     return (
-      <form className="login-form" onSubmit={!btnLoading ? this.handleSubmit : null}>
+      <form onSubmit={this.handleSubmit}>
+        <h2 className="text-info">Ingrese</h2>
+        {message === null ? null : <p className="text-success">{message}</p>}
+        {error === null ? null : <p className="text-danger">{error}</p>}
         <input
-          className="form-control login-input"
+          className="form-control input-text"
           onChange={this.handleChange}
           type="text"
           placeholder="usuario"
@@ -69,7 +74,7 @@ class LoginForm extends React.Component {
           required
         />
         <input
-          className="form-control login-input"
+          className="form-control input-text"
           onChange={this.handleChange}
           type="password"
           placeholder="contraseña"
@@ -77,10 +82,9 @@ class LoginForm extends React.Component {
           name="password"
           required
         />
-        <button className="btn btn-primary btn-home" type="submit">
-          {btnLoading ? 'Espere...' : 'Ingresar'}
+        <button className="btn btn-primary btn-home" type="submit" disabled={loading}>
+          {loading ? 'Espere...' : 'Ingresar'}
         </button>
-        <small className="login-message">{errMessage}</small>
       </form>
     );
   }

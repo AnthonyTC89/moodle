@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_143439) do
     t.string "username"
     t.string "email"
     t.string "password_digest"
-    t.integer "status"
+    t.integer "status", default: 3
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

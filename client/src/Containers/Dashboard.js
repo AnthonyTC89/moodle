@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Navbar from '../Dashboard/Navbar';
+import Footer from '../Components/Footer';
 // import updateRecipes from '../redux/actions/updateRecipes';
 import './Dashboard.css';
 
@@ -19,7 +20,7 @@ class Dashboard extends React.Component {
     if (!session.isLoggedIn) {
       history.push('/');
     }
-    this.getRecipes();
+    // this.getRecipes();
   }
 
   componentDidUpdate() {
@@ -54,6 +55,7 @@ class Dashboard extends React.Component {
         <main className="text-center">
           <Component message={message} />
         </main>
+        <Footer />
       </>
     );
   }

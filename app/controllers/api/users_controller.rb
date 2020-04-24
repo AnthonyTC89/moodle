@@ -9,6 +9,20 @@ module Api
       render json: @users
     end
 
+    # POST /user/login
+    def login
+      @user = User.find_by(username: params[:username])
+      if @user 
+        if @user.authenticate(params[:password_digest])
+          render json: @user, status: :accepted
+        else
+          render json: @user.errors, status: :unauthorized
+        end
+      else
+        render json: @user, status: :not_found
+      end
+    end
+
     # GET /users/1
     def show
       render json: @user
