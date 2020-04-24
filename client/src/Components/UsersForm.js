@@ -6,15 +6,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import updateSession from '../redux/actions/updateSession';
 // import { HTTPresponses } from '../Info.json';
-import './SigninForm.css';
+import './UsersForm.css';
 
 class SigninForm extends React.Component {
   constructor(props) {
     super(props);
+    const { session } = props;
     this.state = {
       loading: false,
-      username: '',
-      email: '',
+      id: session.user.id,
+      username: session.user.username,
+      email: session.user.email,
       password: '',
       confirmation: '',
       message: null,
@@ -39,7 +41,7 @@ class SigninForm extends React.Component {
     });
     try {
       const { changeSession } = this.props;
-      const { username, email, password, confirmation } = this.state;
+      const { id, username, email, password, confirmation } = this.state;
       if (password.trim() !== '') {
         if (confirmation.trim() === '' || confirmation.length < 6) {
           this.setState({
@@ -59,7 +61,11 @@ class SigninForm extends React.Component {
       const salt = parseInt(process.env.REACT_APP_BCRYPT_SALT, 10);
       const password_digest = bcrypt.hashSync(password, salt);
       const data = { username, email, password_digest };
-      const res = await axios.post('/api/users', data);
+
+      const res = id !== null
+        ? await axios.put(`api/products/${id}`, data)
+        : await axios.post('api/products', data);
+
       const user = {
         id: res.data.id,
         username: res.data.username,
@@ -79,11 +85,13 @@ class SigninForm extends React.Component {
   }
 
   render() {
-    const { username, email, password, confirmation,
+    const { id, username, email, password, confirmation,
       loading, message, error } = this.state;
+    const btnText = id === null ? 'Registrar' : ' Actualizar';
+    const headerText = id === null ? 'Registro de Estudiantes' : 'Perfil de Usuario';
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2 className="text-info">Registro de Estudiantes</h2>
+        <h2 className="text-info">{headerText}</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <input
@@ -125,7 +133,7 @@ class SigninForm extends React.Component {
           required
         />
         <button type="submit" className="btn btn-primary btn-home" disabled={loading}>
-          {loading ? 'Espere...' : 'Registrar'}
+          {loading ? 'Espere...' : btnText}
         </button>
       </form>
     );
@@ -133,13 +141,18 @@ class SigninForm extends React.Component {
 }
 
 SigninForm.propTypes = {
+  session: PropTypes.object.isRequired,
   changeSession: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  session: state.session,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeSession: (session) => dispatch(updateSession(session)),
 });
 
-const SigninFormWrapper = connect(null, mapDispatchToProps)(SigninForm);
+const SigninFormWrapper = connect(mapStateToProps, mapDispatchToProps)(SigninForm);
 
 export default SigninFormWrapper;

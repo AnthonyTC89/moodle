@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import updateSession from '../redux/actions/updateSession';
 import Navbar from '../Components/Navbar';
 import LoginForm from '../Components/LoginForm';
-import SigninForm from '../Components/SigninForm';
+import SigninForm from '../Components/UsersForm';
 import Footer from '../Components/Footer';
 import './Home.css';
 

@@ -1,4 +1,4 @@
-import Profile from '../../Dashboard/Profile';
+import Profile from '../../Components/UsersForm';
 
 const defaultDashboard = {
   Component: Profile,
