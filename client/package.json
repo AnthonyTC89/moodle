@@ -11,6 +11,8 @@
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.4.1",
+    "jquery": "^3.5.0",
+    "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-animations": "^1.0.0",
@@ -52,8 +54,6 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.1",
-    "jquery": "^3.5.0",
-    "popper.js": "^1.16.1",
     "typescript": "^3.7.0-beta"
   }
 }
