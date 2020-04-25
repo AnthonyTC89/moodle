@@ -17,6 +17,7 @@ class Users extends React.Component {
     };
     this.handleCloseUserForm = this.handleCloseUserForm.bind(this);
     this.handleOpenUserForm = this.handleOpenUserForm.bind(this);
+    this.handleUpDown = this.handleUpDown.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +57,26 @@ class Users extends React.Component {
     });
   }
 
+  async handleUpDown(user, value) {
+    this.setState({
+      loading: true,
+    });
+    try {
+      const data = { status: user.status + value };
+      await axios.put(`api/users/${user.id}`, data);
+      this.setState({
+        message: 'User updated',
+        loading: false,
+      });
+      await this.getInfo();
+    } catch (err) {
+      this.setState({
+        error: 'error',
+        loading: false,
+      });
+    }
+  }
+
   render() {
     const { users, loading, message, error, userEdit, formVisible } = this.state;
     return (
@@ -64,28 +85,52 @@ class Users extends React.Component {
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <div className="row row-user">
-          <div className="col-2 user-id">id</div>
-          <div className="col-2 user-username">username</div>
-          <div className="col-4 user-email">email</div>
-          <div className="col-2 user-status">status</div>
-          <div className="col-2 btn-actions">actions</div>
+          <div className="col-1 user-text">id</div>
+          <div className="col-2 user-text">username</div>
+          <div className="col-1 user-text">abrev</div>
+          <div className="col-2 user-text">ape pat</div>
+          <div className="col-2 user-text">nombre(s)</div>
+          <div className="col-2 user-text">status</div>
+          <div className="col-2 user-text">actions</div>
         </div>
         {formVisible ? <UsersForm user={userEdit} />
           : users.map((user) => (
             <div key={uuidv4()} className="row row-user">
-              <div className="col-2 user-id">
+              <div className="col-1 user-text">
                 <p>{user.id}</p>
               </div>
-              <div className="col-2 user-username">
+              <div className="col-2 user-text">
                 <p>{user.username}</p>
               </div>
-              <div className="col-4 user-email">
-                <p>{user.email}</p>
+              <div className="col-1 user-text">
+                <p>{user.abrev}</p>
               </div>
-              <div className="col-2 user-status">
+              <div className="col-2 user-text">
+                <p>{user.lastname1}</p>
+              </div>
+              <div className="col-2 user-text">
+                <p>{user.nickname}</p>
+              </div>
+              <div className="col-2 user-text">
                 <p>{user.status}</p>
               </div>
               <div className="col-2 btn-actions">
+                <button
+                  className="btn btn-warning"
+                  type="button"
+                  disabled={loading}
+                  onClick={() => this.handleUpDown(user, -1)}
+                >
+                  Up
+                </button>
+                <button
+                  className="btn btn-info"
+                  type="button"
+                  disabled={loading}
+                  onClick={() => this.handleUpDown(user, 1)}
+                >
+                  Down
+                </button>
                 <button
                   className="btn btn-success"
                   type="button"

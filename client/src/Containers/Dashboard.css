@@ -6,11 +6,11 @@ label {
   margin: 0 1rem;
 }
 
-form {
+/* form {
   flex-direction: column;
   align-items: center;
   width: 100%;
-}
+} */
 
 .input-text-long {
   max-width: 35rem;

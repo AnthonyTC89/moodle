@@ -3,9 +3,19 @@ const defaultSession = {
     id: null,
     username: '',
     email: '',
+    typeDoc: 'DNI',
+    numDoc: '',
+    nickname: '',
+    lastname1: '',
+    lastname2: '',
+    mobile: '',
+    address: '',
+    information: '',
+    abrev: '',
+    biography: '',
     status: 4,
   },
-  isLoggedIn: true,
+  isLoggedIn: false,
 };
 
 const session = (state = defaultSession, { type, user }) => {

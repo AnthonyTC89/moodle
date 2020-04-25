@@ -44,6 +44,17 @@ class LoginForm extends React.Component {
         username: res.data.username,
         email: res.data.email,
         status: res.data.status,
+        typeDoc: res.data.type_doc,
+        numDoc: res.data.num_doc,
+        abrev: res.data.abrev,
+        nickname: res.data.nickname,
+        lastname1: res.data.lastname1,
+        lastname2: res.data.lastname2,
+        mobile: res.data.mobile,
+        address: res.data.address,
+        information: res.data.information,
+        degree: res.data.degree,
+        biography: res.data.biography,
       };
       this.setState({
         loading: false,

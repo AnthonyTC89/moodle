@@ -11,8 +11,8 @@ const App = () => (
   <Provider store={store}>
     <BrowserRouter>
       <Switch>
-        <Route path="/" component={Dashboard} exact />
-        <Route path="/dashboard" component={Home} exact />
+        <Route path="/dashboard" component={Dashboard} exact />
+        <Route path="/" component={Home} exact />
       </Switch>
       <Redirect to="/" />
     </BrowserRouter>

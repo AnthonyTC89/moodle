@@ -4,7 +4,18 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :username
       t.string :email
       t.string :password_digest
-      t.integer :status, default: 3
+      t.string :type_doc
+      t.string :num_doc
+      t.string :abrev
+      t.string :nickname
+      t.string :lastname1
+      t.string :lastname2
+      t.string :mobile
+      t.string :address
+      t.string :information
+      t.string :degree
+      t.string :biography
+      t.integer :status, default: 4
 
       t.timestamps
     end

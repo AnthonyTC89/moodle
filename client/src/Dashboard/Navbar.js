@@ -24,7 +24,7 @@ class Navbar extends React.Component {
       { name: 'Profile', text: 'Students' },
     ];
     const buttons = [
-      { name: 'Profile', text: 'Perfil' },
+      { name: 'UsersForm', text: 'Perfil' },
     ];
     const infoButtons = [
       { name: 'Profile', text: 'Cursos' },

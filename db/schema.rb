@@ -19,7 +19,18 @@ ActiveRecord::Schema.define(version: 2020_04_23_143439) do
     t.string "username"
     t.string "email"
     t.string "password_digest"
-    t.integer "status", default: 3
+    t.string "type_doc"
+    t.string "num_doc"
+    t.string "abrev"
+    t.string "nickname"
+    t.string "lastname1"
+    t.string "lastname2"
+    t.string "mobile"
+    t.string "address"
+    t.string "information"
+    t.string "degree"
+    t.string "biography"
+    t.integer "status", default: 4
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
