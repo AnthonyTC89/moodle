@@ -131,7 +131,7 @@ class SigninForm extends React.Component {
       biography, loading, message, error } = this.state;
     const { session } = this.props;
     const btnText = id === null ? 'Registrar' : ' Actualizar';
-    const headerText = id === null ? 'Registro de Estudiantes' : 'Perfil';
+    const headerText = id === null ? 'Registro' : 'Perfil';
     return (
       <form className="row w-100" onSubmit={this.handleSubmit}>
         <div className="col-12 form-header">

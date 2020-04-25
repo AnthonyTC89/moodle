@@ -19,7 +19,7 @@ class Navbar extends React.Component {
     const { changeComponent, changeSession, session } = this.props;
     const adminButtons = [
       { name: 'Users', text: 'Users' },
-      { name: 'Profile', text: 'People' },
+      { name: 'AcademicPeriods', text: 'Periodos Académicos' },
       { name: 'Profile', text: 'Professors' },
       { name: 'Profile', text: 'Students' },
     ];

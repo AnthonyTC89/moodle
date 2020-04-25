@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
     const { username, password, loading, message, error } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2 className="text-info">Ingrese</h2>
+        <h2 className="text-info">Ingreso</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <input
