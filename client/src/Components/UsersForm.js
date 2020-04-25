@@ -11,16 +11,18 @@ import './UsersForm.css';
 class SigninForm extends React.Component {
   constructor(props) {
     super(props);
-    const { session } = props;
+    const { user, session } = props;
     this.state = {
       loading: false,
-      id: session.user.id,
-      username: session.user.username,
-      email: session.user.email,
+      id: user === null ? session.user.id : user.id,
+      username: user === null ? session.user.username : user.username,
+      email: user === null ? session.user.email : user.email,
+      status: user === null ? session.user.status : user.status,
       password: '',
       confirmation: '',
       message: null,
       error: null,
+      editing: user !== null,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,7 +43,7 @@ class SigninForm extends React.Component {
     });
     try {
       const { changeSession } = this.props;
-      const { id, username, email, password, confirmation } = this.state;
+      const { id, username, email, password, confirmation, status } = this.state;
       if (password.trim() !== '') {
         if (confirmation.trim() === '' || confirmation.length < 6) {
           this.setState({
@@ -61,10 +63,12 @@ class SigninForm extends React.Component {
       const salt = parseInt(process.env.REACT_APP_BCRYPT_SALT, 10);
       const password_digest = bcrypt.hashSync(password, salt);
       const data = { username, email, password_digest };
-
+      if (status !== null) {
+        data.status = status;
+      }
       const res = id !== null
-        ? await axios.put(`api/products/${id}`, data)
-        : await axios.post('api/products', data);
+        ? await axios.put(`api/users/${id}`, data)
+        : await axios.post('api/users', data);
 
       const user = {
         id: res.data.id,
@@ -75,7 +79,7 @@ class SigninForm extends React.Component {
       this.setState({
         loading: false,
       });
-      changeSession({ user, isLoggedIn: true });
+      changeSession(user);
     } catch (err) {
       this.setState({
         error: 'error',
@@ -85,13 +89,15 @@ class SigninForm extends React.Component {
   }
 
   render() {
-    const { id, username, email, password, confirmation,
+    const { id, username, email, password, confirmation, status, editing,
       loading, message, error } = this.state;
+    const { session } = this.props;
     const btnText = id === null ? 'Registrar' : ' Actualizar';
     const headerText = id === null ? 'Registro de Estudiantes' : 'Perfil de Usuario';
     return (
       <form onSubmit={this.handleSubmit}>
         <h2 className="text-info">{headerText}</h2>
+        {editing ? <p>editando</p> : <p>no editando</p>}
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <input
@@ -132,6 +138,18 @@ class SigninForm extends React.Component {
           maxLength={12}
           required
         />
+        { session.user.status === 1
+          ? (
+            <input
+              className="form-control input-text"
+              onChange={this.handleChange}
+              name="status"
+              min="1"
+              max="3"
+              value={status}
+              type="number"
+            />
+          ) : null}
         <button type="submit" className="btn btn-primary btn-home" disabled={loading}>
           {loading ? 'Espere...' : btnText}
         </button>
@@ -141,8 +159,13 @@ class SigninForm extends React.Component {
 }
 
 SigninForm.propTypes = {
+  user: PropTypes.object,
   session: PropTypes.object.isRequired,
   changeSession: PropTypes.func.isRequired,
+};
+
+SigninForm.defaultProps = {
+  user: null,
 };
 
 const mapStateToProps = (state) => ({

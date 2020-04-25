@@ -94,14 +94,10 @@ LoginForm.propTypes = {
   changeSession: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  session: state.session,
-});
-
 const mapDispatchToProps = (dispatch) => ({
   changeSession: (user) => dispatch(updateSession(user)),
 });
 
-const LoginFormWrapper = connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+const LoginFormWrapper = connect(null, mapDispatchToProps)(LoginForm);
 
 export default LoginFormWrapper;

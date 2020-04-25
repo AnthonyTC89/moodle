@@ -1,11 +1,13 @@
 import Profile from '../../Components/UsersForm';
+import Users from '../../Admin/Users';
 
 const defaultDashboard = {
-  Component: Profile,
+  Component: Users,
 };
 
 const collection = {
   Profile,
+  Users,
 };
 
 const dashboard = (state = defaultDashboard, { type, component }) => {

@@ -16,9 +16,9 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const { changeComponent, changeSession } = this.props;
+    const { changeComponent, changeSession, session } = this.props;
     const adminButtons = [
-      { name: 'Profile', text: 'Users' },
+      { name: 'Users', text: 'Users' },
       { name: 'Profile', text: 'People' },
       { name: 'Profile', text: 'Professors' },
       { name: 'Profile', text: 'Students' },
@@ -40,23 +40,26 @@ class Navbar extends React.Component {
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav btn-container">
             <div className="btn-info-group">
-              <div className="btn-group btn-group-navbar">
-                <button type="button" className="btn btn-info dropdown-toggle btn-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Admin
-                </button>
-                <div className="dropdown-menu bg-dark btn-dropdown-menu">
-                  {adminButtons.map((btn) => (
-                    <button
-                      key={uuidv4()}
-                      className="btn btn-info btn-dropdown-item"
-                      type="button"
-                      onClick={() => changeComponent(btn.name)}
-                    >
-                      {btn.text}
+              {session.user.status === 1
+                ? (
+                  <div className="btn-group btn-group-navbar">
+                    <button type="button" className="btn btn-info dropdown-toggle btn-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Admin
                     </button>
-                  ))}
-                </div>
-              </div>
+                    <div className="dropdown-menu bg-dark btn-dropdown-menu">
+                      {adminButtons.map((btn) => (
+                        <button
+                          key={uuidv4()}
+                          className="btn btn-info btn-dropdown-item"
+                          type="button"
+                          onClick={() => changeComponent(btn.name)}
+                        >
+                          {btn.text}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
               {buttons.map((btn) => (
                 <button
                   key={uuidv4()}
@@ -102,13 +105,18 @@ class Navbar extends React.Component {
 Navbar.propTypes = {
   changeSession: PropTypes.func.isRequired,
   changeComponent: PropTypes.func.isRequired,
+  session: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  session: state.session,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   changeSession: (session) => dispatch(updateSession(session)),
   changeComponent: (component) => dispatch(updateDashboard(component)),
 });
 
-const NavbarWrapper = connect(null, mapDispatchToProps)(Navbar);
+const NavbarWrapper = connect(mapStateToProps, mapDispatchToProps)(Navbar);
 
 export default NavbarWrapper;
