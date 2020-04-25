@@ -11,7 +11,7 @@ module Api
 
     # GET /courses/full
     def full_index
-      @query = "SELECT c.id, c.name, c.philosophy, c.axis, c.profile, c.information, c.academid_period_id, ap.year, ap.period, FROM courses as c INNER JOIN academic_periods as ap ON c.academic_period_id = ap.id WHERE c.status=true"
+      @query = "SELECT c.id, c.name, c.philosophy, c.axis, c.profile, c.information, c.status, c.academic_period_id, ap.year, ap.period FROM courses as c INNER JOIN academic_periods as ap ON c.academic_period_id = ap.id"
       @courses = Course.connection.select_all(@query).to_a
       render json: @courses
     end

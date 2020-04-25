@@ -92,13 +92,13 @@ class AcademicPeriodsForm extends React.Component {
           value={period}
           required
         />
-        <input
-          className="form-control"
+        <textarea
+          className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="information"
+          placeholder="Información adicional"
           name="information"
           value={information}
-          required
+          rows="3"
         />
         <div>
           <input

@@ -27,7 +27,7 @@ class Navbar extends React.Component {
       { name: 'UsersForm', text: 'Perfil' },
     ];
     const infoButtons = [
-      { name: 'Profile', text: 'Cursos' },
+      { name: 'Courses', text: 'Cursos' },
     ];
     return (
       <nav className="navbar navbar-expand-md navbar-dark bg-dark">
