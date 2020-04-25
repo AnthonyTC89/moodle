@@ -12,6 +12,11 @@ code {
     monospace;
 }
 
+main {
+  margin: 1rem auto 6rem auto;
+  text-align: center;
+}
+
 .navbar-logo {
   width: 2rem;
   margin: 0 0.5rem;

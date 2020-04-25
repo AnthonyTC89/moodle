@@ -26,11 +26,11 @@ class Home extends React.Component {
       <>
         <header><Navbar /></header>
         <main className="container">
-          <div className="row">
+          <div className="row home-row">
             <section className="col-12 col-md-6 login-section">
               <LoginForm />
             </section>
-            <section className="col-12 col-md-6 signin-section">
+            <section className="col-12 col-md-6 mt-4 mt-md-0 signin-section">
               <SigninForm />
             </section>
           </div>

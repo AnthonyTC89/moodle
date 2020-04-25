@@ -52,7 +52,7 @@ class Dashboard extends React.Component {
     return (
       <>
         <header><Navbar /></header>
-        <main className="text-center">
+        <main>
           <Component message={message} />
         </main>
         <Footer />
