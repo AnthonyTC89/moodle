@@ -9,6 +9,13 @@ module Api
       render json: @academic_periods
     end
 
+    # GET /academic_periods/active
+    def index_active
+      @academic_periods = AcademicPeriod.where(status: true)
+
+      render json: @academic_periods
+    end
+
     # GET /academic_periods/1
     def show
       render json: @academic_period
