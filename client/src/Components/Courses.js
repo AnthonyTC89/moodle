@@ -34,9 +34,9 @@ class Courses extends React.Component {
     });
     try {
       const { session } = this.props;
-      const res = session.user.status <= 2
-        ? await axios.get('/api/courses_full')
-        : await axios.get('/api/courses_full', { params: { user_id: session.user.id } });
+      const res = session.user.status === 3
+        ? await axios.get('/api/courses_full', { params: { user_id: session.user.id } })
+        : await axios.get('/api/courses_full');
 
       this.setState({
         courses: res.data,
