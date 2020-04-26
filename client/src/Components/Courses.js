@@ -33,7 +33,11 @@ class Courses extends React.Component {
       error: null,
     });
     try {
-      const res = await axios.get('/api/courses_full');
+      const { session } = this.props;
+      const res = session.user.status <= 2
+        ? await axios.get('/api/courses_full')
+        : await axios.get('/api/courses_full', { params: { user_id: session.user.id } });
+
       this.setState({
         courses: res.data,
         loading: false,
@@ -86,62 +90,84 @@ class Courses extends React.Component {
     return (
       <section className="container">
         <h2>Cursos</h2>
-        <button
-          className="btn btn-primary"
-          type="button"
-          onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
-        >
-          {formVisible ? 'Volver' : 'Nuevo'}
-        </button>
+        { session.user.status <= 3
+          ? (
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
+            >
+              {formVisible ? 'Volver' : 'Nuevo'}
+            </button>
+          ) : null}
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {formVisible ? null
           : (
             <div className="row row-user">
-              <div className="col-1 user-text">id</div>
-              <div className="col-3 user-text">periodo</div>
-              <div className="col-3 user-text">nombre</div>
-              <div className="col-2 user-text">status</div>
-              <div className="col-3 user-text">actions</div>
+              {session.user.status <= 2
+                ? <div className="col user-text">id</div>
+                : null}
+              <div className="col user-text">periodo</div>
+              <div className="col user-text">nombre</div>
+              {session.user.status <= 3
+                ? <div className="col user-text">status</div>
+                : null}
+              <div className="col user-text">actions</div>
             </div>
           )}
         {formVisible ? <CoursesForm item={itemEdit} />
           : courses.map((item) => (
             <div key={uuidv4()} className="row row-user">
-              <div className="col-1 user-text">
-                <p>{item.id}</p>
-              </div>
-              <div className="col-3 user-text">
+              {session.user.status <= 2
+                ? (
+                  <div className="col user-text">
+                    <p>{item.id}</p>
+                  </div>
+                ) : null}
+              <div className="col user-text">
                 <p>{`${item.year}-${item.period}`}</p>
               </div>
-              <div className="col-3 user-text">
+              <div className="col user-text">
                 <p>{item.name}</p>
               </div>
-              <div className="col-2 user-text">
-                <p>{item.status ? 'Activo' : 'Inactivo'}</p>
-              </div>
-              <div className="col-3 btn-actions">
-                <button
-                  className="btn btn-warning"
-                  type="button"
-                  disabled={loading}
-                  onClick={() => this.handleActive(item)}
-                >
-                  {item.status ? 'Desactivar' : 'Activar'}
-                </button>
-                <button
-                  className="btn btn-success"
-                  type="button"
-                  onClick={() => this.handleOpenForm(item)}
-                >
-                  Edit
-                </button>
+              {session.user.status <= 3
+                ? (
+                  <div className="col user-text">
+                    <p>{item.status ? 'Activo' : 'Inactivo'}</p>
+                  </div>
+                ) : null}
+              <div className="col btn-actions">
+                {session.user.status <= 3
+                  ? (
+                    <button
+                      className="btn btn-warning"
+                      type="button"
+                      disabled={loading}
+                      onClick={() => this.handleActive(item)}
+                    >
+                      {item.status ? 'Desactivar' : 'Activar'}
+                    </button>
+                  ) : null}
+                {session.user.status <= 3
+                  ? (
+                    <button
+                      className="btn btn-success"
+                      type="button"
+                      onClick={() => this.handleOpenForm(item)}
+                    >
+                      Edit
+                    </button>
+                  ) : null}
                 {session.user.status === 1
                   ? (
                     <button className="btn btn-danger" type="button" disabled={loading}>
                       Eliminar
                     </button>
                   ) : null}
+                <button className="btn btn-secondary" type="button">
+                  Temas
+                </button>
               </div>
             </div>
           ))}

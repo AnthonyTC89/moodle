@@ -1,4 +1,11 @@
 {
+  "userType": {
+    "1": "Admin",
+    "2": "SuperUser",
+    "3": "Professor",
+    "4": "Student",
+    "5": "Guest"
+  },
   "footer": {
     "author" : {
       "name": "Anthony Tapia Cossio",

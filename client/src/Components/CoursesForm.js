@@ -3,8 +3,9 @@
 /* eslint-disable object-property-newline */
 import React from 'react';
 import axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import './CoursesForm.css';
 
 class CoursesForm extends React.Component {
@@ -23,6 +24,7 @@ class CoursesForm extends React.Component {
       information: item === null ? '' : item.information,
       status: item === null ? true : item.status,
       academic_period_id: item === null ? '' : item.academic_period_id,
+      user_id: item === null ? null : item.user_id,
       academicPeriodsActive: [],
     };
     this.handleChange = this.handleChange.bind(this);
@@ -76,8 +78,9 @@ class CoursesForm extends React.Component {
     try {
       const { id, name, philosophy, profile, axis, information,
         status, academic_period_id } = this.state;
+      const { session } = this.props;
       const data = { name, philosophy, profile, axis, information,
-        status, academic_period_id: 1 };
+        status, academic_period_id: 1, user_id: session.user.id };
 
       const res = id === null
         ? await axios.post('api/courses', data)
@@ -103,14 +106,27 @@ class CoursesForm extends React.Component {
   }
 
   render() {
-    const { id, name, philosophy, profile, axis, information, status,
+    const { id, name, philosophy, profile, axis, information, status, user_id,
       academic_period_id, academicPeriodsActive, loading, message, error } = this.state;
+    const { session } = this.props;
     const btnText = id === null ? 'Agregar' : 'Actualizar';
     return (
       <form onSubmit={this.handleSubmit}>
         <h2 className="text-primary">formulario</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
+        {session.user.status === 1
+          ? (
+            <input
+              className="form-control input-text"
+              onChange={this.handleChange}
+              placeholder="id de usuario"
+              type="number"
+              name="user_id"
+              value={user_id}
+              required
+            />
+          ) : null}
         <input
           className="form-control input-text"
           onChange={this.handleChange}
@@ -181,4 +197,14 @@ CoursesForm.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
-export default CoursesForm;
+CoursesForm.propTypes = {
+  session: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  session: state.session,
+});
+
+const CoursesFormWrapper = connect(mapStateToProps, null)(CoursesForm);
+
+export default CoursesFormWrapper;

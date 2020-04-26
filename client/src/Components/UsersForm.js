@@ -52,12 +52,12 @@ class SigninForm extends React.Component {
       loading: true,
     });
     try {
-      const { changeSession } = this.props;
+      const { changeSession, session } = this.props;
       const { id, username, email, password, confirmation, status, typeDoc, numDoc,
         abrev, nickname, lastname1, lastname2, mobile, address, information, degree,
         biography } = this.state;
       if (password.trim() !== '') {
-        if (confirmation.trim() === '' || confirmation.length < 6) {
+        if (password.trim().length < 6) {
           this.setState({
             error: 'La contraseña no es segura (mínimo 6)',
             loading: false,
@@ -91,9 +91,18 @@ class SigninForm extends React.Component {
         degree,
         biography,
       };
-      const res = id !== null
-        ? await axios.put(`api/users/${id}`, data)
-        : await axios.post('api/users', data);
+      if (id === null) {
+        const URL_API = process.env.REACT_APP_URL_APISPERU_DNI;
+        const TOKEN_API = process.env.REACT_APP_TOKEN_APISPERU;
+        const req = `${URL_API}${username}${TOKEN_API}`;
+        const infoAPI = await axios.get(req);
+        data.nickname = infoAPI.data.nombres;
+        data.lastname1 = infoAPI.data.apellidoPaterno;
+        data.lastname2 = infoAPI.data.apellidoMaterno;
+      }
+      const res = id === null
+        ? await axios.post('api/users', data)
+        : await axios.put(`api/users/${id}`, data);
 
       const user = {
         id: res.data.id,
@@ -116,10 +125,12 @@ class SigninForm extends React.Component {
         loading: false,
         message: 'Información actualizada exitosamente',
       });
-      changeSession(user);
+      if (session.user.id !== 1) {
+        changeSession(user);
+      }
     } catch (err) {
       this.setState({
-        error: 'error',
+        error: 'DNI inválido',
         loading: false,
       });
     }
@@ -145,7 +156,7 @@ class SigninForm extends React.Component {
           <input
             className="form-control input-text"
             onChange={this.handleChange}
-            placeholder="Documento de Identidad (DNI u otro)"
+            placeholder="DNI"
             name="username"
             value={username}
             required
@@ -234,6 +245,7 @@ class SigninForm extends React.Component {
                 name="nickname"
                 value={nickname}
                 required={session.user.id !== 1}
+                disabled={nickname !== ''}
               />
               <input
                 className="form-control input-text"
@@ -242,6 +254,7 @@ class SigninForm extends React.Component {
                 name="lastname1"
                 value={lastname1}
                 required={session.user.id !== 1}
+                disabled={nickname !== ''}
               />
               <input
                 className="form-control input-text"
@@ -250,6 +263,7 @@ class SigninForm extends React.Component {
                 name="lastname2"
                 value={lastname2}
                 required={session.user.id !== 1}
+                disabled={nickname !== ''}
               />
               <input
                 className="form-control input-text"

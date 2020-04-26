@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import UsersForm from '../Components/UsersForm';
+import { userType } from '../Info.json';
 import './Users.css';
 
 class Users extends React.Component {
@@ -112,7 +113,7 @@ class Users extends React.Component {
                 <p>{user.nickname}</p>
               </div>
               <div className="col-2 user-text">
-                <p>{user.status}</p>
+                <p>{userType[user.status]}</p>
               </div>
               <div className="col-2 btn-actions">
                 <button
