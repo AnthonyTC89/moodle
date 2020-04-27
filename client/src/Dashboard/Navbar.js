@@ -20,8 +20,6 @@ class Navbar extends React.Component {
     const adminButtons = [
       { name: 'Users', text: 'Users' },
       { name: 'AcademicPeriods', text: 'Periodos Académicos' },
-      { name: 'Profile', text: 'Professors' },
-      { name: 'Profile', text: 'Students' },
     ];
     const buttons = [
       { name: 'UsersForm', text: 'Perfil' },

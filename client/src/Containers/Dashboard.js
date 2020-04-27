@@ -47,13 +47,13 @@ class Dashboard extends React.Component {
 
   render() {
     const { message } = this.state;
-    const { dashboard } = this.props;
+    const { dashboard, data } = this.props;
     const { Component } = dashboard;
     return (
       <>
         <header><Navbar /></header>
         <main>
-          <Component message={message} />
+          <Component message={message} data={data} />
         </main>
         <Footer />
       </>
@@ -65,11 +65,13 @@ Dashboard.propTypes = {
   session: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   dashboard: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   session: state.session,
   dashboard: state.dashboard,
+  data: state.data,
 });
 
 const DashboardWrapper = connect(mapStateToProps, null)(Dashboard);

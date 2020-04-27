@@ -1,59 +1,28 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-/* eslint-disable object-property-newline */
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import './CoursesForm.css';
+import './SubjectsForm.css';
 
-class CoursesForm extends React.Component {
+class SubjectsForm extends React.Component {
   constructor(props) {
     super(props);
-    const { item } = props;
+    const { item, course } = props;
     this.state = {
       loading: false,
       message: null,
       error: null,
       id: item === null ? null : item.id,
       name: item === null ? '' : item.name,
-      philosophy: item === null ? '' : item.philosophy,
-      axis: item === null ? '' : item.axis,
-      profile: item === null ? '' : item.profile,
+      description: item === null ? '' : item.description,
       information: item === null ? '' : item.information,
+      course_id: item === null ? course.id : item.course_id,
       status: item === null ? true : item.status,
-      academic_period_id: item === null ? '' : item.academic_period_id,
-      user_id: item === null ? null : item.user_id,
-      academicPeriodsActive: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeCheckBox = this.handleChangeCheckBox.bind(this);
-  }
-
-  componentDidMount() {
-    this.getAcademicPeriods();
-  }
-
-  async getAcademicPeriods() {
-    this.setState({
-      loading: true,
-      message: null,
-      error: null,
-    });
-    try {
-      const res = await axios.get('/api/academic_periods_active');
-      this.setState({
-        academicPeriodsActive: res.data,
-        loading: false,
-      });
-    } catch (err) {
-      this.setState({
-        error: 'Error en el Servidor',
-        loading: false,
-      });
-    }
   }
 
   handleChange(e) {
@@ -76,25 +45,21 @@ class CoursesForm extends React.Component {
       loading: true,
     });
     try {
-      const { id, name, philosophy, profile, axis, information,
-        status, academic_period_id } = this.state;
-      const { session } = this.props;
-      const data = { name, philosophy, profile, axis, information,
-        status, academic_period_id: 1, user_id: session.user.id };
+      const { id, name, description, information, status, course_id } = this.state;
+      const data = { name, description, information, status, course_id };
 
       const res = id === null
-        ? await axios.post('api/courses', data)
-        : await axios.put(`api/courses/${id}`, data);
+        ? await axios.post('api/subjects', data)
+        : await axios.put(`api/subjects/${id}`, data);
 
       this.setState({
         loading: false,
         id: res.data.id,
         name: res.data.name,
-        philosophy: res.data.philosophy,
-        profile: res.data.profile,
+        description: res.data.philosophy,
         information: res.data.information,
         status: res.data.status,
-        academic_period_id: res.data.academic_period_id,
+        course_id: res.data.course_id,
         message: 'Procedimiento exitoso',
       });
     } catch (err) {
@@ -106,13 +71,13 @@ class CoursesForm extends React.Component {
   }
 
   render() {
-    const { id, name, philosophy, profile, axis, information, status, user_id,
-      academic_period_id, academicPeriodsActive, loading, message, error } = this.state;
+    const { id, name, description, information, status, course_id,
+      loading, message, error } = this.state;
     const { session } = this.props;
     const btnText = id === null ? 'Agregar' : 'Actualizar';
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2 className="text-primary">formulario de cursos</h2>
+        <h2 className="text-primary">formulario de temas</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {session.user.status === 1
@@ -120,17 +85,17 @@ class CoursesForm extends React.Component {
             <input
               className="form-control input-text"
               onChange={this.handleChange}
-              placeholder="id de usuario"
+              placeholder="id de curso"
               type="number"
-              name="user_id"
-              value={user_id}
+              name="course_id"
+              value={course_id}
               required
             />
           ) : null}
         <input
           className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="nombre del curso"
+          placeholder="nombre del tema"
           name="name"
           value={name}
           required
@@ -138,25 +103,9 @@ class CoursesForm extends React.Component {
         <textarea
           className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="Filosofía del curso"
-          name="philosophy"
-          value={philosophy}
-          rows="3"
-        />
-        <textarea
-          className="form-control input-text"
-          onChange={this.handleChange}
-          placeholder="Perfil del curso"
-          name="profile"
-          value={profile}
-          rows="3"
-        />
-        <textarea
-          className="form-control input-text"
-          onChange={this.handleChange}
-          placeholder="Eje del curso"
-          name="axis"
-          value={axis}
+          placeholder="Descripción del tema"
+          name="description"
+          value={description}
           rows="3"
         />
         <textarea
@@ -167,14 +116,6 @@ class CoursesForm extends React.Component {
           value={information}
           rows="3"
         />
-        {/* <select className="custom-select" onChange={this.handleChange}>
-          <option selected>Periodo Academico</option>
-          {academicPeriodsActive.map((acadPer) => (
-            <option key={uuidv4()} value={acadPer.id}>
-              {`${acadPer.year}-${acadPer.period}`}
-            </option>
-          ))}
-        </select> */}
         <div>
           <input
             id="chk-status"
@@ -193,11 +134,12 @@ class CoursesForm extends React.Component {
   }
 }
 
-CoursesForm.propTypes = {
+SubjectsForm.propTypes = {
   item: PropTypes.object.isRequired,
+  course: PropTypes.object.isRequired,
 };
 
-CoursesForm.propTypes = {
+SubjectsForm.propTypes = {
   session: PropTypes.object.isRequired,
 };
 
@@ -205,6 +147,6 @@ const mapStateToProps = (state) => ({
   session: state.session,
 });
 
-const CoursesFormWrapper = connect(mapStateToProps, null)(CoursesForm);
+const SubjectsFormWrapper = connect(mapStateToProps, null)(SubjectsForm);
 
-export default CoursesFormWrapper;
+export default SubjectsFormWrapper;

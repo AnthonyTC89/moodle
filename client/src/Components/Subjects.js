@@ -3,16 +3,14 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import CoursesForm from './CoursesForm';
-import updateData from '../redux/actions/updateData';
-import updateDashboard from '../redux/actions/updateDashboard';
-import './Courses.css';
+import SubjectsForm from './SubjectsForm';
+import './Subjects.css';
 
-class Courses extends React.Component {
+class Subjects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: [],
+      subjects: [],
       loading: false,
       message: null,
       error: null,
@@ -22,7 +20,6 @@ class Courses extends React.Component {
     this.handleCloseForm = this.handleCloseForm.bind(this);
     this.handleOpenForm = this.handleOpenForm.bind(this);
     this.handleActive = this.handleActive.bind(this);
-    this.handleSubject = this.handleSubject.bind(this);
   }
 
   componentDidMount() {
@@ -36,13 +33,11 @@ class Courses extends React.Component {
       error: null,
     });
     try {
-      const { session } = this.props;
-      const res = session.user.status === 3
-        ? await axios.get('/api/courses_full', { params: { user_id: session.user.id } })
-        : await axios.get('/api/courses_full');
+      const { data } = this.props;
+      const res = await axios.get('/api/subjects_full', { params: { course_id: data.id } });
 
       this.setState({
-        courses: res.data,
+        subjects: res.data,
         loading: false,
       });
     } catch (err) {
@@ -73,7 +68,7 @@ class Courses extends React.Component {
     });
     try {
       const data = { status: !item.status };
-      await axios.put(`api/courses/${item.id}`, data);
+      await axios.put(`api/subjects/${item.id}`, data);
       this.setState({
         message: 'Actualizado',
         loading: false,
@@ -87,18 +82,13 @@ class Courses extends React.Component {
     }
   }
 
-  async handleSubject(item) {
-    const { changeComponent, changeData } = this.props;
-    await changeData(item);
-    await changeComponent('Subjects');
-  }
-
   render() {
-    const { courses, loading, message, error, itemEdit, formVisible } = this.state;
-    const { session } = this.props;
+    const { subjects, loading, message, error, itemEdit, formVisible } = this.state;
+    const { session, data } = this.props;
     return (
       <section className="container">
-        <h2>Cursos</h2>
+        <h2>{data.name}</h2>
+        <h3>Temas</h3>
         { session.user.status <= 3
           ? (
             <button
@@ -117,16 +107,15 @@ class Courses extends React.Component {
               {session.user.status <= 2
                 ? <div className="col user-text">id</div>
                 : null}
-              <div className="col user-text">periodo</div>
               <div className="col user-text">nombre</div>
               {session.user.status <= 3
                 ? <div className="col user-text">status</div>
                 : null}
-              <div className="col user-text">actions</div>
+              <div className="col user-text">acciones</div>
             </div>
           )}
-        {formVisible ? <CoursesForm item={itemEdit} />
-          : courses.map((item) => (
+        {formVisible ? <SubjectsForm item={itemEdit} course={data} />
+          : subjects.map((item) => (
             <div key={uuidv4()} className="row row-user">
               {session.user.status <= 2
                 ? (
@@ -134,9 +123,6 @@ class Courses extends React.Component {
                     <p>{item.id}</p>
                   </div>
                 ) : null}
-              <div className="col user-text">
-                <p>{`${item.year}-${item.period}`}</p>
-              </div>
               <div className="col user-text">
                 <p>{item.name}</p>
               </div>
@@ -174,12 +160,11 @@ class Courses extends React.Component {
                       Eliminar
                     </button>
                   ) : null}
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                  onClick={() => this.handleSubject(item)}
-                >
-                  Temas
+                <button className="btn btn-secondary" type="button">
+                  Sessiones
+                </button>
+                <button className="btn btn-secondary" type="button">
+                  Bibliografia
                 </button>
               </div>
             </div>
@@ -189,21 +174,16 @@ class Courses extends React.Component {
   }
 }
 
-Courses.propTypes = {
+Subjects.propTypes = {
   session: PropTypes.object.isRequired,
-  changeComponent: PropTypes.func.isRequired,
-  changeData: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   session: state.session,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  changeComponent: (component) => dispatch(updateDashboard(component)),
-  changeData: (data) => dispatch(updateData(data)),
-});
 
-const CoursesWrapper = connect(mapStateToProps, mapDispatchToProps)(Courses);
+const SubjectsWrapper = connect(mapStateToProps, null)(Subjects);
 
-export default CoursesWrapper;
+export default SubjectsWrapper;
