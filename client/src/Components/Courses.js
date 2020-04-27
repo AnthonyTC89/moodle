@@ -37,9 +37,8 @@ class Courses extends React.Component {
     });
     try {
       const { session } = this.props;
-      const res = session.user.status === 3
-        ? await axios.get('/api/courses_full', { params: { user_id: session.user.id } })
-        : await axios.get('/api/courses_full');
+      const res = await axios.get('/api/courses_full',
+        { params: { user_id: session.user.id } });
 
       this.setState({
         courses: res.data,
@@ -115,14 +114,17 @@ class Courses extends React.Component {
           : (
             <div className="row row-user">
               {session.user.status <= 2
-                ? <div className="col user-text">id</div>
+                ? <div className="col user-text"><h6>id</h6></div>
                 : null}
-              <div className="col user-text">periodo</div>
-              <div className="col user-text">nombre</div>
+              <div className="col user-text"><h6>periodo</h6></div>
+              <div className="col user-text"><h6>nombre</h6></div>
               {session.user.status <= 3
-                ? <div className="col user-text">status</div>
+                ? <div className="col user-text"><h6>estado</h6></div>
                 : null}
-              <div className="col user-text">actions</div>
+              <div className="col user-text"><h6>ver</h6></div>
+              {session.user.status <= 3
+                ? <div className="col user-text"><h6>acciones</h6></div>
+                : null}
             </div>
           )}
         {formVisible ? <CoursesForm item={itemEdit} />
@@ -138,17 +140,11 @@ class Courses extends React.Component {
                 <p>{`${item.year}-${item.period}`}</p>
               </div>
               <div className="col user-text">
-                <p>{item.name}</p>
+                <p className={item.status ? '' : 'text-line-through'}>{item.name}</p>
               </div>
               {session.user.status <= 3
                 ? (
                   <div className="col user-text">
-                    <p>{item.status ? 'Activo' : 'Inactivo'}</p>
-                  </div>
-                ) : null}
-              <div className="col btn-actions">
-                {session.user.status <= 3
-                  ? (
                     <button
                       className="btn btn-warning"
                       type="button"
@@ -157,23 +153,9 @@ class Courses extends React.Component {
                     >
                       {item.status ? 'Desactivar' : 'Activar'}
                     </button>
-                  ) : null}
-                {session.user.status <= 3
-                  ? (
-                    <button
-                      className="btn btn-success"
-                      type="button"
-                      onClick={() => this.handleOpenForm(item)}
-                    >
-                      Edit
-                    </button>
-                  ) : null}
-                {session.user.status === 1
-                  ? (
-                    <button className="btn btn-danger" type="button" disabled={loading}>
-                      Eliminar
-                    </button>
-                  ) : null}
+                  </div>
+                ) : null}
+              <div className="col user-text">
                 <button
                   className="btn btn-secondary"
                   type="button"
@@ -181,7 +163,29 @@ class Courses extends React.Component {
                 >
                   Temas
                 </button>
+                <button
+                  className="btn btn-info"
+                  type="button"
+                  // onClick={() => this.handleShow(item)}
+                >
+                  Detalles
+                </button>
               </div>
+              {session.user.status <= 3
+                ? (
+                  <div className="col btn-actions">
+                    <button
+                      className="btn btn-success"
+                      type="button"
+                      onClick={() => this.handleOpenForm(item)}
+                    >
+                      Edit
+                    </button>
+                    <button className="btn btn-danger" type="button" disabled={loading}>
+                      Eliminar
+                    </button>
+                  </div>
+                ) : null}
             </div>
           ))}
       </section>

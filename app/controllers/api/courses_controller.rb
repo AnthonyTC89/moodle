@@ -11,9 +11,14 @@ module Api
 
     # GET /courses/full
     def full_index
+      @user = User.find_by(id: params[:user_id])
       @query = 'SELECT c.id, c.name, c.philosophy, c.axis, c.profile, c.information, c.status, c.academic_period_id, c.user_id, ap.year, ap.period'
-      @query << ' FROM courses as c INNER JOIN academic_periods as ap ON c.academic_period_id = ap.id'
-      @query << " WHERE user_id=#{params[:user_id].to_i}" if !params[:user_id].nil?
+      @query << ' FROM courses as c'
+      @query << ' INNER JOIN academic_periods as ap ON c.academic_period_id = ap.id'
+      @query << ' WHERE true'
+      @query << " AND c.user_id=#{params[:user_id]}" if @user.status === 3
+      @query << " AND c.status=true" if @user.status === 4
+      @query << ' ORDER BY c.created_at'
       @courses = Course.connection.select_all(@query).to_a
       render json: @courses
     end
