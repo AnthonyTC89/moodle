@@ -115,18 +115,18 @@ class Subjects extends React.Component {
           : (
             <div className="row row-user">
               {session.user.status <= 2
-                ? <div className="col user-text"><h6>id</h6></div>
+                ? <div className="col col-text"><h6>id</h6></div>
                 : null}
-              <div className="col user-text"><h6>nombre</h6></div>
+              <div className="col col-text"><h6>nombre</h6></div>
               {session.user.status <= 3
-                ? <div className="col user-text"><h6>estado</h6></div>
+                ? <div className="col col-text"><h6>estado</h6></div>
                 : null}
-              <div className="col user-text"><h6>ver</h6></div>
+              <div className="col col-text"><h6>ver</h6></div>
               {session.user.status <= 3
-                ? <div className="col user-text"><h6>acciones</h6></div>
+                ? <div className="col col-text"><h6>acciones</h6></div>
                 : null}
               {session.user.status <= 2
-                ? <div className="col user-text"><h6>eliminar</h6></div>
+                ? <div className="col col-text"><h6>eliminar</h6></div>
                 : null}
             </div>
           )}
@@ -135,16 +135,16 @@ class Subjects extends React.Component {
             <div key={uuidv4()} className="row row-user">
               {session.user.status <= 2
                 ? (
-                  <div className="col user-text">
+                  <div className="col col-text">
                     <p>{item.id}</p>
                   </div>
                 ) : null}
-              <div className="col user-text">
+              <div className="col col-text">
                 <p>{item.name}</p>
               </div>
               {session.user.status <= 3
                 ? (
-                  <div className="col user-text">
+                  <div className="col btn-actions">
                     <button
                       className="btn btn-warning"
                       type="button"
@@ -155,18 +155,18 @@ class Subjects extends React.Component {
                     </button>
                   </div>
                 ) : null}
-              <div className="col user-text">
+              <div className="col btn-actions">
                 <button
-                  className="btn btn-info"
+                  className="btn btn-info m-1"
                   type="button"
                   onClick={() => this.handleChangeComponent(item, 'SubjectsShow')}
                 >
                   Detalles
                 </button>
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-secondary m-1"
                   type="button"
-                  onClick={() => this.handleChangeComponent(item, 'Sessions')}
+                  // onClick={() => this.handleChangeComponent(item, 'Sessions')}
                 >
                   Sessiones
                 </button>

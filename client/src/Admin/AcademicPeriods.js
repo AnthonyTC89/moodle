@@ -95,33 +95,30 @@ class AcademicPeriods extends React.Component {
         {formVisible ? null
           : (
             <div className="row row-user">
-              <div className="col-1 user-text">id</div>
-              <div className="col-2 user-text">año</div>
-              <div className="col-2 user-text">periodo</div>
-              <div className="col-3 user-text">informacion</div>
-              <div className="col-2 user-text">status</div>
-              <div className="col-2 user-text">actions</div>
+              <div className="col user-text"><h6>id</h6></div>
+              <div className="col user-text"><h6>año</h6></div>
+              <div className="col user-text"><h6>periodo</h6></div>
+              <div className="col user-text"><h6>información</h6></div>
+              <div className="col user-text"><h6>estado</h6></div>
+              <div className="col user-text"><h6>acciones</h6></div>
             </div>
           )}
         {formVisible ? <AcademicPeriodsForm item={itemEdit} />
           : academicPeriods.map((item) => (
             <div key={uuidv4()} className="row row-user">
-              <div className="col-1 user-text">
+              <div className="col user-text">
                 <p>{item.id}</p>
               </div>
-              <div className="col-2 user-text">
+              <div className="col user-text">
                 <p>{item.year}</p>
               </div>
-              <div className="col-2 user-text">
+              <div className="col user-text">
                 <p>{item.period}</p>
               </div>
-              <div className="col-3 user-text">
+              <div className="col user-text">
                 <p>{item.information}</p>
               </div>
-              <div className="col-2 user-text">
-                <p>{item.status ? 'Activo' : 'Inactivo'}</p>
-              </div>
-              <div className="col-2 btn-actions">
+              <div className="col user-text">
                 <button
                   className="btn btn-warning"
                   type="button"
@@ -130,6 +127,8 @@ class AcademicPeriods extends React.Component {
                 >
                   {item.status ? 'Desactivar' : 'Activar'}
                 </button>
+              </div>
+              <div className="col btn-actions">
                 <button
                   className="btn btn-success"
                   type="button"

@@ -43,6 +43,11 @@ p {
   font-family: 'Comic Neue', cursive;
 }
 
+span {
+  font-weight: 600;
+  margin: auto 0.2rem;
+}
+
 small {
   font-family: 'Comic Neue', cursive;
   font-weight: 700;

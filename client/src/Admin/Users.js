@@ -86,52 +86,48 @@ class Users extends React.Component {
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <div className="row row-user">
-          <div className="col-1 user-text">id</div>
-          <div className="col-2 user-text">username</div>
-          <div className="col-1 user-text">abrev</div>
-          <div className="col-2 user-text">ape pat</div>
-          <div className="col-2 user-text">nombre(s)</div>
-          <div className="col-2 user-text">status</div>
-          <div className="col-2 user-text">actions</div>
+          <div className="col col-text"><h6>id</h6></div>
+          <div className="col col-text"><h6>username</h6></div>
+          <div className="col col-text"><h6>ape pat</h6></div>
+          <div className="col col-text"><h6>nombre(s)</h6></div>
+          <div className="col col-text"><h6>estado</h6></div>
+          <div className="col col-text"><h6>acciones</h6></div>
         </div>
         {formVisible ? <UsersForm user={userEdit} />
           : users.map((user) => (
             <div key={uuidv4()} className="row row-user">
-              <div className="col-1 user-text">
+              <div className="col col-text">
                 <p>{user.id}</p>
               </div>
-              <div className="col-2 user-text">
+              <div className="col col-text">
                 <p>{user.username}</p>
               </div>
-              <div className="col-1 user-text">
-                <p>{user.abrev}</p>
-              </div>
-              <div className="col-2 user-text">
+              <div className="col col-text">
                 <p>{user.lastname1}</p>
               </div>
-              <div className="col-2 user-text">
+              <div className="col col-text">
                 <p>{user.nickname}</p>
               </div>
-              <div className="col-2 user-text">
-                <p>{userType[user.status]}</p>
-              </div>
-              <div className="col-2 btn-actions">
+              <div className="col btn-actions">
                 <button
                   className="btn btn-warning"
                   type="button"
                   disabled={loading}
                   onClick={() => this.handleUpDown(user, -1)}
                 >
-                  Up
+                  ↑
                 </button>
+                <span>{userType[user.status]}</span>
                 <button
                   className="btn btn-info"
                   type="button"
                   disabled={loading}
                   onClick={() => this.handleUpDown(user, 1)}
                 >
-                  Down
+                  ↓
                 </button>
+              </div>
+              <div className="col btn-actions">
                 <button
                   className="btn btn-success"
                   type="button"

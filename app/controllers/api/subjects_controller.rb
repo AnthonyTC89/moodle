@@ -13,7 +13,7 @@ module Api
     def full_index
       @query = 'SELECT s.id, s.name, s.description, s.information, s.status, s.course_id'
       @query << ' FROM subjects as s INNER JOIN courses as c ON s.course_id = c.id'
-      @query << " WHERE course_id=#{params[:course_id].to_i}" if !params[:course_id].nil?
+      @query << " WHERE course_id=#{params[:course_id].to_i}"
       @subjects = Subject.connection.select_all(@query).to_a
       render json: @subjects
     end

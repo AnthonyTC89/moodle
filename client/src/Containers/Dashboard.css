@@ -9,6 +9,12 @@
   justify-content: center;
 }
 
+.btn-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn-dashboard {
   margin: 0.5rem
 }
@@ -30,7 +36,7 @@ label {
 }
 
 .input-text, .textarea-form {
-  max-width: 30rem;
+  max-width: 20rem;
   min-width: 18rem;
   margin: 0.1rem auto;
 }
