@@ -112,7 +112,7 @@ class CoursesForm extends React.Component {
     const btnText = id === null ? 'Agregar' : 'Actualizar';
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2 className="text-primary">formulario de cursos</h2>
+        <h2>formulario</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {session.user.status === 1

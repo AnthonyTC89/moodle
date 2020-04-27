@@ -5,6 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #e6e4f8;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #e0e2e2, #e6e4f8);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #e0e2e2, #e6e4f8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 code {
@@ -15,6 +18,34 @@ code {
 main {
   margin: 5rem auto;
   text-align: center;
+}
+
+h2 {
+  text-transform: uppercase;
+  font-family: 'Kaushan Script', cursive;
+  color: #007bff;
+}
+
+h3, h4 {
+  font-family: 'Kaushan Script';
+  color: #011302;
+}
+
+h5 {
+  text-transform: capitalize;
+}
+
+h6 {
+  text-transform: uppercase;
+}
+
+p {
+  font-family: 'Comic Neue', cursive;
+}
+
+small {
+  font-family: 'Comic Neue', cursive;
+  font-weight: 700;
 }
 
 .navbar-logo {

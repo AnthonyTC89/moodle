@@ -4,24 +4,6 @@ footer {
   flex-direction: column;
 }
 
-h2 {
-  text-transform: uppercase;
-  font-family: 'Kaushan Script', cursive;
-}
-
-h3, h4 {
-  font-family: 'Kaushan Script'
-}
-
-p {
-  font-family: 'Comic Neue', cursive;
-  font-size: larger;
-}
-
-small {
-  font-family: 'Comic Neue', cursive;
-}
-
 .btn-home {
   margin: 0.5rem
 }

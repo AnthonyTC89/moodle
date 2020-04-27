@@ -1,3 +1,14 @@
+.row-text {
+  text-align: left;
+  flex-direction: column;
+  padding: 1rem 10%;
+}
+
+.row-header {
+  flex-direction: column;
+  justify-content: center;
+}
+
 .btn-dashboard {
   margin: 0.5rem
 }

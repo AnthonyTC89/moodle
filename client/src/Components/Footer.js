@@ -15,7 +15,7 @@ class Footer extends React.Component {
     return (
       <footer className="container-fluid bg-dark">
         <div className="row footer-copyright">
-          <p className="text-white">{copyright}</p>
+          <p>{copyright}</p>
         </div>
       </footer>
     );

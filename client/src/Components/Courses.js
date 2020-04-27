@@ -22,7 +22,7 @@ class Courses extends React.Component {
     this.handleCloseForm = this.handleCloseForm.bind(this);
     this.handleOpenForm = this.handleOpenForm.bind(this);
     this.handleActive = this.handleActive.bind(this);
-    this.handleSubject = this.handleSubject.bind(this);
+    this.handleChangeComponent = this.handleChangeComponent.bind(this);
   }
 
   componentDidMount() {
@@ -86,10 +86,10 @@ class Courses extends React.Component {
     }
   }
 
-  async handleSubject(item) {
+  async handleChangeComponent(item, name) {
     const { changeComponent, changeData } = this.props;
     await changeData(item);
-    await changeComponent('Subjects');
+    await changeComponent(name);
   }
 
   render() {
@@ -157,18 +157,18 @@ class Courses extends React.Component {
                 ) : null}
               <div className="col user-text">
                 <button
-                  className="btn btn-secondary"
-                  type="button"
-                  onClick={() => this.handleSubject(item)}
-                >
-                  Temas
-                </button>
-                <button
                   className="btn btn-info"
                   type="button"
-                  // onClick={() => this.handleShow(item)}
+                  onClick={() => this.handleChangeComponent(item, 'CoursesShow')}
                 >
                   Detalles
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  onClick={() => this.handleChangeComponent(item, 'Subjects')}
+                >
+                  Temas
                 </button>
               </div>
               {session.user.status <= 3

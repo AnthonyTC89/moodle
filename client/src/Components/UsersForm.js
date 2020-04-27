@@ -146,13 +146,13 @@ class SigninForm extends React.Component {
     return (
       <form className="row w-100" onSubmit={this.handleSubmit}>
         <div className="col-12 form-header">
-          <h2 className="text-info">{headerText}</h2>
+          <h2>{headerText}</h2>
           {message === null ? null : <p className="text-success">{message}</p>}
           {error === null ? null : <p className="text-danger">{error}</p>}
         </div>
         <div className="col">
           {id === null
-            ? null : <h2 className="text-info">usuario</h2>}
+            ? null : <h2>usuario</h2>}
           <input
             className="form-control input-text"
             onChange={this.handleChange}
@@ -211,7 +211,7 @@ class SigninForm extends React.Component {
           ? null
           : (
             <div className="col">
-              <h2 className="text-info">datos personales</h2>
+              <h2>datos personales</h2>
               <input
                 className="form-control input-text"
                 onChange={this.handleChange}
@@ -296,7 +296,7 @@ class SigninForm extends React.Component {
         {session.user.status === 3
           ? (
             <div className="col">
-              <h2 className="text-info">datos académicos</h2>
+              <h2>datos académicos</h2>
               <input
                 className="form-control input-text"
                 onChange={this.handleChange}
