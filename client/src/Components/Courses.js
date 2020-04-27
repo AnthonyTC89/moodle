@@ -125,6 +125,9 @@ class Courses extends React.Component {
               {session.user.status <= 3
                 ? <div className="col user-text"><h6>acciones</h6></div>
                 : null}
+              {session.user.status <= 2
+                ? <div className="col user-text"><h6>eliminar</h6></div>
+                : null}
             </div>
           )}
         {formVisible ? <CoursesForm item={itemEdit} />
@@ -179,9 +182,18 @@ class Courses extends React.Component {
                       type="button"
                       onClick={() => this.handleOpenForm(item)}
                     >
-                      Edit
+                      Editar
                     </button>
-                    <button className="btn btn-danger" type="button" disabled={loading}>
+                  </div>
+                ) : null}
+              {session.user.status <= 2
+                ? (
+                  <div className="col btn-actions">
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                      disabled={loading}
+                    >
                       Eliminar
                     </button>
                   </div>

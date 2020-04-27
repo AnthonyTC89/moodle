@@ -105,13 +105,19 @@ class Subjects extends React.Component {
           : (
             <div className="row row-user">
               {session.user.status <= 2
-                ? <div className="col user-text">id</div>
+                ? <div className="col user-text"><h6>id</h6></div>
                 : null}
-              <div className="col user-text">nombre</div>
+              <div className="col user-text"><h6>nombre</h6></div>
               {session.user.status <= 3
-                ? <div className="col user-text">status</div>
+                ? <div className="col user-text"><h6>estado</h6></div>
                 : null}
-              <div className="col user-text">acciones</div>
+              <div className="col user-text"><h6>ver</h6></div>
+              {session.user.status <= 3
+                ? <div className="col user-text"><h6>acciones</h6></div>
+                : null}
+              {session.user.status <= 2
+                ? <div className="col user-text"><h6>eliminar</h6></div>
+                : null}
             </div>
           )}
         {formVisible ? <SubjectsForm item={itemEdit} course={data} />
@@ -129,12 +135,6 @@ class Subjects extends React.Component {
               {session.user.status <= 3
                 ? (
                   <div className="col user-text">
-                    <p>{item.status ? 'Activo' : 'Inactivo'}</p>
-                  </div>
-                ) : null}
-              <div className="col btn-actions">
-                {session.user.status <= 3
-                  ? (
                     <button
                       className="btn btn-warning"
                       type="button"
@@ -143,30 +143,47 @@ class Subjects extends React.Component {
                     >
                       {item.status ? 'Desactivar' : 'Activar'}
                     </button>
-                  ) : null}
-                {session.user.status <= 3
-                  ? (
+                  </div>
+                ) : null}
+              <div className="col user-text">
+                <button
+                  className="btn btn-info"
+                  type="button"
+                  onClick={() => this.handleChangeComponent(item, 'SubjectsShow')}
+                >
+                  Detalles
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  onClick={() => this.handleChangeComponent(item, 'Sessions')}
+                >
+                  Sessiones
+                </button>
+              </div>
+              {session.user.status <= 3
+                ? (
+                  <div className="col btn-actions">
                     <button
                       className="btn btn-success"
                       type="button"
                       onClick={() => this.handleOpenForm(item)}
                     >
-                      Edit
+                      Editar
                     </button>
-                  ) : null}
-                {session.user.status === 1
-                  ? (
-                    <button className="btn btn-danger" type="button" disabled={loading}>
+                  </div>
+                ) : null}
+              {session.user.status <= 2
+                ? (
+                  <div className="col btn-actions">
+                    <button
+                      className="btn btn-danger"
+                      type="button"
+                    >
                       Eliminar
                     </button>
-                  ) : null}
-                <button className="btn btn-secondary" type="button">
-                  Sessiones
-                </button>
-                <button className="btn btn-secondary" type="button">
-                  Bibliografia
-                </button>
-              </div>
+                  </div>
+                ) : null}
             </div>
           ))}
       </section>
