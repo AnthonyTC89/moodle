@@ -24,12 +24,14 @@ label {
 } */
 
 .input-text-long {
-  max-width: 35rem;
+  max-width: 50rem;
+  min-width: 18rem;
   margin: 0.1rem auto;
 }
 
 .input-text, .textarea-form {
-  max-width: 20rem;
+  max-width: 30rem;
+  min-width: 18rem;
   margin: 0.1rem auto;
 }
 

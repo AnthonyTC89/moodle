@@ -77,7 +77,7 @@ class SubjectsForm extends React.Component {
     const btnText = id === null ? 'Agregar' : 'Actualizar';
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2 className="text-primary">formulario de temas</h2>
+        <h2 className="text-primary">formulario</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {session.user.status === 1
@@ -101,7 +101,7 @@ class SubjectsForm extends React.Component {
           required
         />
         <textarea
-          className="form-control input-text"
+          className="form-control input-text-long"
           onChange={this.handleChange}
           placeholder="Descripción del tema"
           name="description"
@@ -109,7 +109,7 @@ class SubjectsForm extends React.Component {
           rows="3"
         />
         <textarea
-          className="form-control input-text"
+          className="form-control input-text-long"
           onChange={this.handleChange}
           placeholder="Información adicional"
           name="information"

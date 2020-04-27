@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import SubjectsForm from './SubjectsForm';
+import updateData from '../redux/actions/updateData';
+import updateDashboard from '../redux/actions/updateDashboard';
 import './Subjects.css';
 
 class Subjects extends React.Component {
@@ -20,6 +22,7 @@ class Subjects extends React.Component {
     this.handleCloseForm = this.handleCloseForm.bind(this);
     this.handleOpenForm = this.handleOpenForm.bind(this);
     this.handleActive = this.handleActive.bind(this);
+    this.handleChangeComponent = this.handleChangeComponent.bind(this);
   }
 
   componentDidMount() {
@@ -80,6 +83,13 @@ class Subjects extends React.Component {
         loading: false,
       });
     }
+  }
+
+  async handleChangeComponent(item, name) {
+    const { changeComponent, changeData, data } = this.props;
+    const params = { item, course: data };
+    await changeData(params);
+    await changeComponent(name);
   }
 
   render() {
@@ -194,13 +204,19 @@ class Subjects extends React.Component {
 Subjects.propTypes = {
   session: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
+  changeComponent: PropTypes.func.isRequired,
+  changeData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   session: state.session,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  changeComponent: (component) => dispatch(updateDashboard(component)),
+  changeData: (data) => dispatch(updateData(data)),
+});
 
-const SubjectsWrapper = connect(mapStateToProps, null)(Subjects);
+const SubjectsWrapper = connect(mapStateToProps, mapDispatchToProps)(Subjects);
 
 export default SubjectsWrapper;

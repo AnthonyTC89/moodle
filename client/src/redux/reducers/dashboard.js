@@ -4,6 +4,7 @@ import AcademicPeriods from '../../Admin/AcademicPeriods';
 import Courses from '../../Components/Courses';
 import Subjects from '../../Components/Subjects';
 import CoursesShow from '../../Components/CoursesShow';
+import SubjectsShow from '../../Components/SubjectsShow';
 
 const defaultDashboard = {
   Component: UsersForm,
@@ -16,6 +17,7 @@ const collection = {
   Courses,
   Subjects,
   CoursesShow,
+  SubjectsShow,
 };
 
 const dashboard = (state = defaultDashboard, { type, component }) => {

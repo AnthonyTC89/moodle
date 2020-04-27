@@ -136,7 +136,7 @@ class CoursesForm extends React.Component {
           required
         />
         <textarea
-          className="form-control input-text"
+          className="form-control input-text-long"
           onChange={this.handleChange}
           placeholder="Filosofía del curso"
           name="philosophy"
@@ -144,7 +144,7 @@ class CoursesForm extends React.Component {
           rows="3"
         />
         <textarea
-          className="form-control input-text"
+          className="form-control input-text-long"
           onChange={this.handleChange}
           placeholder="Perfil del curso"
           name="profile"
@@ -152,7 +152,7 @@ class CoursesForm extends React.Component {
           rows="3"
         />
         <textarea
-          className="form-control input-text"
+          className="form-control input-text-long"
           onChange={this.handleChange}
           placeholder="Eje del curso"
           name="axis"
@@ -160,7 +160,7 @@ class CoursesForm extends React.Component {
           rows="3"
         />
         <textarea
-          className="form-control input-text"
+          className="form-control input-text-long"
           onChange={this.handleChange}
           placeholder="Información adicional"
           name="information"
