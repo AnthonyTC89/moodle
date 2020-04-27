@@ -18,10 +18,31 @@
   font-weight: 600;
 }
 
-.btn-image {
-  max-width: 1.5rem;
+.btn-container {
+  align-items: center;
+  justify-content: space-between;
+  width: -webkit-fill-available;
 }
 
-.btn-user {
-  padding-left: 1.5rem;
+.btn-dropdown {
+  max-height: 2.5rem;
+}
+
+.btn-group-navbar, .btn-navbar, .btn-close {
+  margin: 0.2rem;
+  min-width: 5rem;
+  max-height: 2.5rem;
+}
+
+.btn-dropdown-menu {
+  text-align: center !important;
+}
+
+.btn-dropdown-item {
+  width: 90%;
+  margin: 0.2rem 0;
+}
+
+.dropdown-menu {
+  position: absolute !important;
 }

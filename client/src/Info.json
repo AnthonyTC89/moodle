@@ -1,4 +1,29 @@
 {
+  "navbar": {
+    "text": "moodle-pedagógico",
+    "admin": {
+      "name" : "Admin",
+      "buttons": [
+        { "name": "Users", "text": "Users" },
+        { "name": "AcademicPeriods", "text": "Periodos Académicos" }
+      ]
+    },
+    "user": {
+      "name" : "user",
+      "buttons": [
+        { "name": "UsersForm", "text": "Perfil" }
+      ]
+    },
+    "info": {
+      "name" : "Académico",
+      "buttons": [
+        { "name": "Courses", "text": "Cursos" }
+      ]
+    },
+    "close": {
+      "name" : "Cerrar"
+    }
+  },
   "userType": {
     "1": "Admin",
     "2": "SuperUser",
@@ -7,11 +32,7 @@
     "5": "Guest"
   },
   "footer": {
-    "author" : {
-      "name": "Anthony Tapia Cossio",
-      "nick": "AnthonyTC89",
-      "link": "https://github.com/AnthonyTC89"
-    }
+    "text": "© AnthonyTC89. All Rights Reserved."
   },
   "HTTPresponses": {
     "404": "Usuario no encontrado",

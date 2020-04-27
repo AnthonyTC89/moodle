@@ -1,17 +1,14 @@
 import React from 'react';
-// import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Navbar from '../Dashboard/Navbar';
+import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
-// import updateRecipes from '../redux/actions/updateRecipes';
 import './Dashboard.css';
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
     };
   }
 
@@ -20,7 +17,6 @@ class Dashboard extends React.Component {
     if (!session.isLoggedIn) {
       history.push('/');
     }
-    // this.getRecipes();
   }
 
   componentDidUpdate() {
@@ -30,30 +26,14 @@ class Dashboard extends React.Component {
     }
   }
 
-  // async getRecipes() {
-  //   const { changeRecipes } = this.props;
-  //   try {
-  //     const recipes = await axios.get('/api/recipes');
-  //     this.setState({
-  //       message: '',
-  //     });
-  //     changeRecipes(recipes.data);
-  //   } catch (error) {
-  //     this.setState({
-  //       message: 'Error en el Servidor',
-  //     });
-  //   }
-  // }
-
   render() {
-    const { message } = this.state;
     const { dashboard, data } = this.props;
     const { Component } = dashboard;
     return (
       <>
         <header><Navbar /></header>
         <main>
-          <Component message={message} data={data} />
+          <Component data={data} />
         </main>
         <Footer />
       </>
