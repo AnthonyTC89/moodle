@@ -125,6 +125,7 @@ class Subjects extends React.Component {
                 ? <div className="col col-text"><h6>estado</h6></div>
                 : null}
               <div className="col col-text"><h6>ver</h6></div>
+              <div className="col col-text"><h6>sesión</h6></div>
               {session.user.status <= 3
                 ? <div className="col col-text"><h6>acciones</h6></div>
                 : null}
@@ -160,14 +161,16 @@ class Subjects extends React.Component {
                 ) : null}
               <div className="col btn-actions">
                 <button
-                  className="btn btn-info m-1"
+                  className="btn btn-info"
                   type="button"
                   onClick={() => this.handleChangeComponent(item, 'SubjectsShow')}
                 >
                   {details}
                 </button>
+              </div>
+              <div className="col btn-actions">
                 <a
-                  className="btn btn-secondary m-1"
+                  className="btn btn-secondary"
                   href={zoom}
                   target="_blank"
                   rel="noopener noreferrer"

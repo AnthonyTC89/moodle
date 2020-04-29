@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
-  
   namespace :api do
+    resources :documents, only: [:create, :destroy]
+    get "/documents_full/", to: "documents#index_full"
+
     resources :subjects
     get "/subjects_full/", to: "subjects#full_index"
 
