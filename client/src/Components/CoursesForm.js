@@ -6,6 +6,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { buttons } from '../Info.json';
 import './CoursesForm.css';
 
 class CoursesForm extends React.Component {
@@ -22,14 +23,12 @@ class CoursesForm extends React.Component {
       axis: item === null ? '' : item.axis,
       profile: item === null ? '' : item.profile,
       information: item === null ? '' : item.information,
-      status: item === null ? true : item.status,
       academic_period_id: item === null ? '' : item.academic_period_id,
       user_id: item === null ? null : item.user_id,
       academicPeriodsActive: [],
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChangeCheckBox = this.handleChangeCheckBox.bind(this);
   }
 
   componentDidMount() {
@@ -62,12 +61,6 @@ class CoursesForm extends React.Component {
     });
   }
 
-  handleChangeCheckBox(e) {
-    this.setState({
-      status: e.target.checked,
-    });
-  }
-
   async handleSubmit(e) {
     e.preventDefault();
     this.setState({
@@ -77,10 +70,10 @@ class CoursesForm extends React.Component {
     });
     try {
       const { id, name, philosophy, profile, axis, information,
-        status, academic_period_id } = this.state;
+        academic_period_id } = this.state;
       const { session } = this.props;
       const data = { name, philosophy, profile, axis, information,
-        status, academic_period_id: 1, user_id: session.user.id };
+        academic_period_id: 1, user_id: session.user.id };
 
       const res = id === null
         ? await axios.post('api/courses', data)
@@ -93,7 +86,6 @@ class CoursesForm extends React.Component {
         philosophy: res.data.philosophy,
         profile: res.data.profile,
         information: res.data.information,
-        status: res.data.status,
         academic_period_id: res.data.academic_period_id,
         message: 'Procedimiento exitoso',
       });
@@ -106,10 +98,11 @@ class CoursesForm extends React.Component {
   }
 
   render() {
-    const { id, name, philosophy, profile, axis, information, status, user_id,
+    const { id, name, philosophy, profile, axis, information, user_id,
       academic_period_id, academicPeriodsActive, loading, message, error } = this.state;
     const { session } = this.props;
-    const btnText = id === null ? 'Agregar' : 'Actualizar';
+    const { add, update, wait } = buttons;
+    const btnText = id === null ? add : update;
     return (
       <form onSubmit={this.handleSubmit}>
         <h2>formulario</h2>
@@ -175,18 +168,8 @@ class CoursesForm extends React.Component {
             </option>
           ))}
         </select> */}
-        <div>
-          <input
-            id="chk-status"
-            type="checkbox"
-            className="form-check-input"
-            checked={status}
-            onChange={this.handleChangeCheckBox}
-          />
-          <label className="form-check-label" htmlFor="chk-status">Activo</label>
-        </div>
         <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Espere...' : btnText}
+          {loading ? wait : btnText}
         </button>
       </form>
     );

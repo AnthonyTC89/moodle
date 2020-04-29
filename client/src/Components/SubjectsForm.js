@@ -3,6 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { buttons } from '../Info.json';
 import './SubjectsForm.css';
 
 class SubjectsForm extends React.Component {
@@ -18,22 +19,14 @@ class SubjectsForm extends React.Component {
       description: item === null ? '' : item.description,
       information: item === null ? '' : item.information,
       course_id: item === null ? course.id : item.course_id,
-      status: item === null ? true : item.status,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChangeCheckBox = this.handleChangeCheckBox.bind(this);
   }
 
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
-    });
-  }
-
-  handleChangeCheckBox(e) {
-    this.setState({
-      status: e.target.checked,
     });
   }
 
@@ -45,8 +38,8 @@ class SubjectsForm extends React.Component {
       loading: true,
     });
     try {
-      const { id, name, description, information, status, course_id } = this.state;
-      const data = { name, description, information, status, course_id };
+      const { id, name, description, information, course_id } = this.state;
+      const data = { name, description, information, course_id };
 
       const res = id === null
         ? await axios.post('api/subjects', data)
@@ -58,7 +51,6 @@ class SubjectsForm extends React.Component {
         name: res.data.name,
         description: res.data.philosophy,
         information: res.data.information,
-        status: res.data.status,
         course_id: res.data.course_id,
         message: 'Procedimiento exitoso',
       });
@@ -71,10 +63,11 @@ class SubjectsForm extends React.Component {
   }
 
   render() {
-    const { id, name, description, information, status, course_id,
+    const { id, name, description, information, course_id,
       loading, message, error } = this.state;
     const { session } = this.props;
-    const btnText = id === null ? 'Agregar' : 'Actualizar';
+    const { add, update, wait } = buttons;
+    const btnText = id === null ? add : update;
     return (
       <form onSubmit={this.handleSubmit}>
         <h2 className="text-primary">formulario</h2>
@@ -116,18 +109,8 @@ class SubjectsForm extends React.Component {
           value={information}
           rows="3"
         />
-        <div>
-          <input
-            id="chk-status"
-            type="checkbox"
-            className="form-check-input"
-            checked={status}
-            onChange={this.handleChangeCheckBox}
-          />
-          <label className="form-check-label" htmlFor="chk-status">Activo</label>
-        </div>
         <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Espere...' : btnText}
+          {loading ? wait : btnText}
         </button>
       </form>
     );

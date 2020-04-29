@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import updateSession from '../redux/actions/updateSession';
-// import { HTTPresponses } from '../Info.json';
+import { buttons } from '../Info.json';
 import './UsersForm.css';
 
 class SigninForm extends React.Component {
@@ -141,7 +141,8 @@ class SigninForm extends React.Component {
       abrev, nickname, lastname1, lastname2, mobile, address, information, degree,
       biography, loading, message, error } = this.state;
     const { session } = this.props;
-    const btnText = id === null ? 'Registrar' : ' Actualizar';
+    const { signin, update, wait } = buttons;
+    const btnText = id === null ? signin : update;
     const headerText = id === null ? 'Registro' : 'Perfil';
     return (
       <form className="row w-100" onSubmit={this.handleSubmit}>
@@ -204,7 +205,7 @@ class SigninForm extends React.Component {
               />
             ) : null}
           <button type="submit" className="btn btn-primary btn-home" disabled={loading}>
-            {loading ? 'Espere...' : btnText}
+            {loading ? wait : btnText}
           </button>
         </div>
         {id === null
@@ -289,7 +290,7 @@ class SigninForm extends React.Component {
                 rows="3"
               />
               <button type="submit" className="btn btn-primary btn-home" disabled={loading}>
-                {loading ? 'Espere...' : btnText}
+                {loading ? wait : btnText}
               </button>
             </div>
           )}
@@ -313,7 +314,7 @@ class SigninForm extends React.Component {
                 rows="7"
               />
               <button type="submit" className="btn btn-primary btn-home" disabled={loading}>
-                {loading ? 'Espere...' : btnText}
+                {loading ? wait : btnText}
               </button>
             </div>
           ) : null}

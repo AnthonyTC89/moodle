@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import updateSession from '../redux/actions/updateSession';
-// import { HTTPresponses } from '../Info.json';
+import { loginInfo, buttons } from '../Info.json';
 import './LoginForm.css';
 
 class LoginForm extends React.Component {
@@ -70,16 +70,18 @@ class LoginForm extends React.Component {
 
   render() {
     const { username, password, loading, message, error } = this.state;
+    const { title, placeholders } = loginInfo;
+    const { wait, login } = buttons;
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2>Ingreso</h2>
+        <h2>{title}</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <input
           className="form-control input-text"
           onChange={this.handleChange}
           type="text"
-          placeholder="usuario"
+          placeholder={placeholders.username}
           value={username}
           name="username"
           required
@@ -88,13 +90,13 @@ class LoginForm extends React.Component {
           className="form-control input-text"
           onChange={this.handleChange}
           type="password"
-          placeholder="contraseña"
+          placeholder={placeholders.password}
           value={password}
           name="password"
           required
         />
         <button className="btn btn-primary btn-home" type="submit" disabled={loading}>
-          {loading ? 'Espere...' : 'Ingresar'}
+          {loading ? wait : login }
         </button>
       </form>
     );

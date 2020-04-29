@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import logoDefault from '../Images/logo.png';
 import updateDashboard from '../redux/actions/updateDashboard';
 import updateSession from '../redux/actions/updateSession';
-import { navbar } from '../Info.json';
+import { navbarInfo } from '../Info.json';
 import 'bootstrap/dist/js/bootstrap';
 import './Navbar.css';
 
@@ -18,16 +18,13 @@ class Navbar extends React.Component {
 
   render() {
     const { changeComponent, changeSession, session } = this.props;
-    const { admin, user, info, close } = navbar;
-    const adminButtons = admin.buttons;
-    const userButtons = user.buttons;
-    const infoButtons = info.buttons;
+    const { admin, user, info, close, text } = navbarInfo;
     return (
       <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
         <div className="navbar-elements">
           <img className="navbar-logo" src={logoDefault} alt="hassana-logo" />
           <div>
-            <a className="navbar-brand" href="#home">{navbar.text}</a>
+            <a className="navbar-brand" href="#home">{text}</a>
           </div>
           {session.user.id === null
             ? null : (
@@ -48,7 +45,7 @@ class Navbar extends React.Component {
                           {admin.name}
                         </button>
                         <div className="dropdown-menu bg-dark btn-dropdown-menu">
-                          {adminButtons.map((btn) => (
+                          {admin.buttons.map((btn) => (
                             <button
                               key={uuidv4()}
                               className="btn btn-info btn-dropdown-item"
@@ -61,7 +58,7 @@ class Navbar extends React.Component {
                         </div>
                       </div>
                     ) : null}
-                  {userButtons.map((btn) => (
+                  {user.buttons.map((btn) => (
                     <button
                       key={uuidv4()}
                       className="btn btn-info btn-navbar"
@@ -76,7 +73,7 @@ class Navbar extends React.Component {
                       {info.name}
                     </button>
                     <div className="dropdown-menu bg-dark btn-dropdown-menu">
-                      {infoButtons.map((btn) => (
+                      {info.buttons.map((btn) => (
                         <button
                           key={uuidv4()}
                           className="btn btn-info btn-dropdown-item"

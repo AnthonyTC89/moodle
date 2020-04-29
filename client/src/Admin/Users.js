@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import UsersForm from '../Components/UsersForm';
-import { userType } from '../Info.json';
+import { usersInfo, buttons } from '../Info.json';
 import './Users.css';
 
 class Users extends React.Component {
@@ -80,18 +80,32 @@ class Users extends React.Component {
 
   render() {
     const { users, loading, message, error, userEdit, formVisible } = this.state;
+    const { title, status, columns } = usersInfo;
+    const { upgrade, downgrade, edit, remove } = buttons;
     return (
       <section className="container">
-        <h2>usuarios</h2>
+        <h2>{title}</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <div className="row row-user">
-          <div className="col col-text"><h6>id</h6></div>
-          <div className="col col-text"><h6>username</h6></div>
-          <div className="col col-text"><h6>ape pat</h6></div>
-          <div className="col col-text"><h6>nombre(s)</h6></div>
-          <div className="col col-text"><h6>estado</h6></div>
-          <div className="col col-text"><h6>acciones</h6></div>
+          <div className="col user-text">
+            <h6>{columns.id}</h6>
+          </div>
+          <div className="col user-text">
+            <h6>{columns.username}</h6>
+          </div>
+          <div className="col user-text">
+            <h6>{columns.lastname1}</h6>
+          </div>
+          <div className="col user-text">
+            <h6>{columns.nickname}</h6>
+          </div>
+          <div className="col user-text">
+            <h6>{columns.status}</h6>
+          </div>
+          <div className="col user-text">
+            <h6>{columns.accions}</h6>
+          </div>
         </div>
         {formVisible ? <UsersForm user={userEdit} />
           : users.map((user) => (
@@ -115,16 +129,16 @@ class Users extends React.Component {
                   disabled={loading}
                   onClick={() => this.handleUpDown(user, -1)}
                 >
-                  ↑
+                  {upgrade}
                 </button>
-                <span>{userType[user.status]}</span>
+                <span>{status[user.status]}</span>
                 <button
                   className="btn btn-info"
                   type="button"
                   disabled={loading}
                   onClick={() => this.handleUpDown(user, 1)}
                 >
-                  ↓
+                  {downgrade}
                 </button>
               </div>
               <div className="col btn-actions">
@@ -133,10 +147,10 @@ class Users extends React.Component {
                   type="button"
                   onClick={() => this.handleOpenUserForm(user)}
                 >
-                  Edit
+                  {edit}
                 </button>
                 <button className="btn btn-danger" type="button" disabled={loading}>
-                  Eliminar
+                  {remove}
                 </button>
               </div>
             </div>

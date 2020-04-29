@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { academicPeriodsInfo, buttons } from '../Info.json';
 import './AcademicPeriodsForm.css';
 
 class AcademicPeriodsForm extends React.Component {
@@ -15,22 +16,14 @@ class AcademicPeriodsForm extends React.Component {
       year: item === null ? null : item.year,
       period: item === null ? null : item.period,
       information: item === null ? '' : item.information,
-      status: item === null ? true : item.status,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChangeCheckBox = this.handleChangeCheckBox.bind(this);
   }
 
   handleChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
-    });
-  }
-
-  handleChangeCheckBox(e) {
-    this.setState({
-      status: e.target.checked,
     });
   }
 
@@ -42,8 +35,8 @@ class AcademicPeriodsForm extends React.Component {
       loading: true,
     });
     try {
-      const { id, year, period, information, status } = this.state;
-      const data = { year, period, information, status };
+      const { id, year, period, information } = this.state;
+      const data = { year, period, information };
 
       const res = id === null
         ? await axios.post('api/academic_periods', data)
@@ -55,7 +48,6 @@ class AcademicPeriodsForm extends React.Component {
         year: res.data.year,
         period: res.data.period,
         information: res.data.information,
-        status: res.data.status,
         message: 'Procedimiento exitoso',
       });
     } catch (err) {
@@ -67,26 +59,29 @@ class AcademicPeriodsForm extends React.Component {
   }
 
   render() {
-    const { id, year, period, information, status, loading, message, error } = this.state;
-    const btnText = id === null ? 'Agregar' : 'Actualizar';
+    const { id, year, period, information, loading, message, error } = this.state;
+    const { form } = academicPeriodsInfo;
+    const { title, placeholders } = form;
+    const { add, update, wait } = buttons;
+    const btnText = id === null ? add : update;
     return (
       <form onSubmit={this.handleSubmit}>
-        <h2 className="text-primary">formulario</h2>
+        <h2 className="text-primary">{title}</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         <input
-          className="form-control"
+          className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="año"
+          placeholder={placeholders.year}
           type="number"
           name="year"
           value={year}
           required
         />
         <input
-          className="form-control"
+          className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="periodo"
+          placeholder={placeholders.period}
           type="number"
           name="period"
           value={period}
@@ -95,23 +90,13 @@ class AcademicPeriodsForm extends React.Component {
         <textarea
           className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="Información adicional"
+          placeholder={placeholders.information}
           name="information"
           value={information}
           rows="3"
         />
-        <div>
-          <input
-            id="chk-status"
-            type="checkbox"
-            className="form-check-input"
-            checked={status}
-            onChange={this.handleChangeCheckBox}
-          />
-          <label className="form-check-label" htmlFor="chk-status">Activo</label>
-        </div>
         <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Espere...' : btnText}
+          {loading ? wait : btnText}
         </button>
       </form>
     );

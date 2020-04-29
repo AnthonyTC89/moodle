@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import AcademicPeriodsForm from '../Components/AcademicPeriodsForm';
+import { academicPeriodsInfo, buttons } from '../Info.json';
 import './AcademicPeriods.css';
 
 class AcademicPeriods extends React.Component {
@@ -80,27 +81,41 @@ class AcademicPeriods extends React.Component {
 
   render() {
     const { academicPeriods, loading, message, error, itemEdit, formVisible } = this.state;
+    const { create, back, edit, remove, active, inactive } = buttons;
+    const { title, columns } = academicPeriodsInfo;
     return (
       <section className="container">
-        <h2>periodos académicos</h2>
+        <h2>{title}</h2>
         <button
           className="btn btn-primary"
           type="button"
           onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
         >
-          {formVisible ? 'Volver' : 'Nuevo'}
+          {formVisible ? back : create}
         </button>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {formVisible ? null
           : (
             <div className="row row-user">
-              <div className="col user-text"><h6>id</h6></div>
-              <div className="col user-text"><h6>año</h6></div>
-              <div className="col user-text"><h6>periodo</h6></div>
-              <div className="col user-text"><h6>información</h6></div>
-              <div className="col user-text"><h6>estado</h6></div>
-              <div className="col user-text"><h6>acciones</h6></div>
+              <div className="col user-text">
+                <h6>{columns.id}</h6>
+              </div>
+              <div className="col user-text">
+                <h6>{columns.year}</h6>
+              </div>
+              <div className="col user-text">
+                <h6>{columns.period}</h6>
+              </div>
+              <div className="col user-text">
+                <h6>{columns.information}</h6>
+              </div>
+              <div className="col user-text">
+                <h6>{columns.status}</h6>
+              </div>
+              <div className="col user-text">
+                <h6>{columns.accions}</h6>
+              </div>
             </div>
           )}
         {formVisible ? <AcademicPeriodsForm item={itemEdit} />
@@ -125,7 +140,7 @@ class AcademicPeriods extends React.Component {
                   disabled={loading}
                   onClick={() => this.handleActive(item)}
                 >
-                  {item.status ? 'Desactivar' : 'Activar'}
+                  {item.status ? inactive : active}
                 </button>
               </div>
               <div className="col btn-actions">
@@ -134,10 +149,10 @@ class AcademicPeriods extends React.Component {
                   type="button"
                   onClick={() => this.handleOpenForm(item)}
                 >
-                  Edit
+                  {edit}
                 </button>
                 <button className="btn btn-danger" type="button" disabled={loading}>
-                  Eliminar
+                  {remove}
                 </button>
               </div>
             </div>

@@ -1,5 +1,5 @@
 {
-  "navbar": {
+  "navbarInfo": {
     "text": "moodle-pedagógico",
     "admin": {
       "name" : "Admin",
@@ -24,12 +24,66 @@
       "name" : "Cerrar"
     }
   },
-  "userType": {
-    "1": "Admin",
-    "2": "SuperUser",
-    "3": "Professor",
-    "4": "Student",
-    "5": "Guest"
+  "academicPeriodsInfo": {
+    "title": "periodos académicos",
+    "columns": {
+      "id": "id",
+      "year": "año",
+      "period": "periodo", 
+      "information": "información",
+      "status": "estado",
+      "accions": "acciones"
+    },
+    "form": {
+      "title": "formulario",
+      "placeholders": {
+        "year" : "año",
+        "period": "periodo",
+        "information": "información"
+      }
+    }
+  },
+  "usersInfo": {
+    "title": "usuarios",
+    "columns": {
+      "id": "id",
+      "username": "username",
+      "lastname1": "ape. pat.", 
+      "nickname": "nombre(s)",
+      "status": "estado",
+      "accions": "acciones"
+    },
+    "status": {
+      "1": "Admin",
+      "2": "SuperUser",
+      "3": "Professor",
+      "4": "Student",
+      "5": "Guest"
+    }
+  },
+  "loginInfo": {
+    "title": "ingreso",
+    "placeholders": {
+      "username": "usuario",
+      "password": "contraseña"
+    }
+  },
+  "buttons": {
+    "login": "Ingresar",
+    "signin": "Registrar",
+    "add": "Agregar",
+    "update": "Actualizar",
+    "wait" : "Espere...",
+    "edit": "Editar",
+    "remove": "Eliminar",
+    "active": "Activar",
+    "inactive": "Desactivar",
+    "create": "Nuevo",
+    "back": "Volver",
+    "upgrade": "↑",
+    "downgrade": "↓",
+    "details": "Detalles",
+    "subjects": "Temas"
   },
   "footer": {
     "text": "© AnthonyTC89. All Rights Reserved."

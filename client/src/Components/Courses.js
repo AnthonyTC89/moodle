@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import CoursesForm from './CoursesForm';
 import updateData from '../redux/actions/updateData';
 import updateDashboard from '../redux/actions/updateDashboard';
+import { buttons } from '../Info.json';
 import './Courses.css';
 
 class Courses extends React.Component {
@@ -95,6 +96,7 @@ class Courses extends React.Component {
   render() {
     const { courses, loading, message, error, itemEdit, formVisible } = this.state;
     const { session } = this.props;
+    const { add, edit, active, inactive, wait, back, remove, details, subjects } = buttons;
     return (
       <section className="container">
         <h2>Cursos</h2>
@@ -105,7 +107,7 @@ class Courses extends React.Component {
               type="button"
               onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
             >
-              {formVisible ? 'Volver' : 'Nuevo'}
+              {formVisible ? back : add}
             </button>
           ) : null}
         {message === null ? null : <p className="text-success">{message}</p>}
@@ -154,24 +156,24 @@ class Courses extends React.Component {
                       disabled={loading}
                       onClick={() => this.handleActive(item)}
                     >
-                      {item.status ? 'Desactivar' : 'Activar'}
+                      {item.status ? inactive : active}
                     </button>
                   </div>
                 ) : null}
               <div className="col btn-actions">
                 <button
-                  className="btn btn-info m-1"
+                  className="btn btn-info"
                   type="button"
                   onClick={() => this.handleChangeComponent(item, 'CoursesShow')}
                 >
-                  Detalles
+                  {details}
                 </button>
                 <button
-                  className="btn btn-secondary m-1"
+                  className="btn btn-secondary"
                   type="button"
                   onClick={() => this.handleChangeComponent(item, 'Subjects')}
                 >
-                  Temas
+                  {subjects}
                 </button>
               </div>
               {session.user.status <= 3
@@ -182,7 +184,7 @@ class Courses extends React.Component {
                       type="button"
                       onClick={() => this.handleOpenForm(item)}
                     >
-                      Editar
+                      {edit}
                     </button>
                   </div>
                 ) : null}
@@ -194,7 +196,7 @@ class Courses extends React.Component {
                       type="button"
                       disabled={loading}
                     >
-                      Eliminar
+                      {loading ? wait : remove}
                     </button>
                   </div>
                 ) : null}

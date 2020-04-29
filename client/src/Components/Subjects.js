@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SubjectsForm from './SubjectsForm';
 import updateData from '../redux/actions/updateData';
 import updateDashboard from '../redux/actions/updateDashboard';
+import { buttons } from '../Info.json';
 import './Subjects.css';
 
 class Subjects extends React.Component {
@@ -95,6 +96,8 @@ class Subjects extends React.Component {
   render() {
     const { subjects, loading, message, error, itemEdit, formVisible } = this.state;
     const { session, data } = this.props;
+    const { add, back, inactive, active, details, edit, wait, remove } = buttons;
+    const zoom = 'https://us04web.zoom.us/j/78623687786';
     return (
       <section className="container">
         <h2>{data.name}</h2>
@@ -106,7 +109,7 @@ class Subjects extends React.Component {
               type="button"
               onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
             >
-              {formVisible ? 'Volver' : 'Nuevo'}
+              {formVisible ? back : add}
             </button>
           ) : null}
         {message === null ? null : <p className="text-success">{message}</p>}
@@ -151,7 +154,7 @@ class Subjects extends React.Component {
                       disabled={loading}
                       onClick={() => this.handleActive(item)}
                     >
-                      {item.status ? 'Desactivar' : 'Activar'}
+                      {item.status ? inactive : active}
                     </button>
                   </div>
                 ) : null}
@@ -161,15 +164,16 @@ class Subjects extends React.Component {
                   type="button"
                   onClick={() => this.handleChangeComponent(item, 'SubjectsShow')}
                 >
-                  Detalles
+                  {details}
                 </button>
-                <button
+                <a
                   className="btn btn-secondary m-1"
-                  type="button"
-                  // onClick={() => this.handleChangeComponent(item, 'Sessions')}
+                  href={zoom}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Sessiones
-                </button>
+                  Zoom
+                </a>
               </div>
               {session.user.status <= 3
                 ? (
@@ -179,7 +183,7 @@ class Subjects extends React.Component {
                       type="button"
                       onClick={() => this.handleOpenForm(item)}
                     >
-                      Editar
+                      {edit}
                     </button>
                   </div>
                 ) : null}
@@ -189,8 +193,9 @@ class Subjects extends React.Component {
                     <button
                       className="btn btn-danger"
                       type="button"
+                      disabled={loading}
                     >
-                      Eliminar
+                      {loading ? wait : remove }
                     </button>
                   </div>
                 ) : null}

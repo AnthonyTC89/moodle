@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.btn-actions > button {
+  margin: 0.1rem;
+}
+
 .btn-dashboard {
   margin: 0.5rem
 }
