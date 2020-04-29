@@ -7,7 +7,7 @@ import CoursesShow from '../../Components/CoursesShow';
 import SubjectsShow from '../../Components/SubjectsShow';
 
 const defaultDashboard = {
-  Component: UsersForm,
+  Component: Courses,
 };
 
 const collection = {
