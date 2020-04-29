@@ -68,6 +68,9 @@
       "password": "contraseña"
     }
   },
+  "documentsInfo": {
+    "title": "Documentos"
+  },
   "buttons": {
     "login": "Ingresar",
     "signin": "Registrar",
@@ -83,7 +86,9 @@
     "upgrade": "↑",
     "downgrade": "↓",
     "details": "Detalles",
-    "subjects": "Temas"
+    "subjects": "Temas",
+    "upload": "Guardar",
+    "download": "Descargar"
   },
   "footer": {
     "text": "© AnthonyTC89. All Rights Reserved."

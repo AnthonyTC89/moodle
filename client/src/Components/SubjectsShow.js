@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import Documents from './Documents';
 import './SubjectsShow.css';
 
 class SubjectsShow extends React.Component {
@@ -11,7 +11,7 @@ class SubjectsShow extends React.Component {
   }
 
   render() {
-    const { data, session } = this.props;
+    const { data } = this.props;
     const { item, course } = data;
     const { name, description, information } = item;
     return (
@@ -24,13 +24,17 @@ class SubjectsShow extends React.Component {
           <h5>descripción del tema</h5>
           <p>{description}</p>
         </div>
-        <div className="row row-text">
-          <h5>información adicional</h5>
-          <p>{information}</p>
+        {information === ''
+          ? null
+          : (
+            <div className="row row-text">
+              <h5>información adicional</h5>
+              <p>{information}</p>
+            </div>
+          )}
+        <div className="row">
+          <Documents subject={item} />
         </div>
-        {session.user.status <= 3
-          ? 'Upload'
-          : null}
       </article>
     );
   }
@@ -38,13 +42,6 @@ class SubjectsShow extends React.Component {
 
 SubjectsShow.propTypes = {
   data: PropTypes.object.isRequired,
-  session: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  session: state.session,
-});
-
-const SubjectsShowWrapper = connect(mapStateToProps, null)(SubjectsShow);
-
-export default SubjectsShowWrapper;
+export default SubjectsShow;
