@@ -85,6 +85,7 @@ class LoginForm extends React.Component {
           value={username}
           name="username"
           required
+          disabled={loading}
         />
         <input
           className="form-control input-text"
@@ -94,6 +95,7 @@ class LoginForm extends React.Component {
           value={password}
           name="password"
           required
+          disabled={loading}
         />
         <button className="btn btn-primary btn-home" type="submit" disabled={loading}>
           {loading ? wait : login }

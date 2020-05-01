@@ -13,8 +13,8 @@ class AcademicPeriodsForm extends React.Component {
       message: null,
       error: null,
       id: item === null ? null : item.id,
-      year: item === null ? null : item.year,
-      period: item === null ? null : item.period,
+      year: item === null ? '' : item.year,
+      period: item === null ? '' : item.period,
       information: item === null ? '' : item.information,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -45,9 +45,6 @@ class AcademicPeriodsForm extends React.Component {
       this.setState({
         loading: false,
         id: res.data.id,
-        year: res.data.year,
-        period: res.data.period,
-        information: res.data.information,
         message: 'Procedimiento exitoso',
       });
     } catch (err) {
@@ -104,7 +101,11 @@ class AcademicPeriodsForm extends React.Component {
 }
 
 AcademicPeriodsForm.propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
+};
+
+AcademicPeriodsForm.defaultProps = {
+  item: null,
 };
 
 export default AcademicPeriodsForm;

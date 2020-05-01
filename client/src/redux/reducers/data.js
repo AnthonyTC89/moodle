@@ -1,6 +1,4 @@
-const defaultData = {
-
-};
+const defaultData = null;
 
 const data = (state = defaultData, { type, newData }) => {
   switch (type) {

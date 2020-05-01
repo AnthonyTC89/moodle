@@ -12,8 +12,8 @@ class SubjectsShow extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { item, course } = data;
-    const { name, description, information } = item;
+    const { subject, course } = data;
+    const { name, description, information } = subject;
     return (
       <article className="container">
         <div className="row row-header">
@@ -33,7 +33,7 @@ class SubjectsShow extends React.Component {
             </div>
           )}
         <div className="row">
-          <Documents subject={item} />
+          <Documents subject={subject} />
         </div>
       </article>
     );
@@ -42,6 +42,7 @@ class SubjectsShow extends React.Component {
 
 SubjectsShow.propTypes = {
   data: PropTypes.object.isRequired,
+
 };
 
 export default SubjectsShow;

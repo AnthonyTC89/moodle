@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import updateDashboard from '../redux/actions/updateDashboard';
+import { buttons } from '../Info.json';
 import './CoursesShow.css';
 
 class CoursesShow extends React.Component {
@@ -10,8 +13,10 @@ class CoursesShow extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
-    const { name, philosophy, axis, profile, information, year, period } = data;
+    const { data, changeComponent } = this.props;
+    const { course, prev } = data;
+    const { name, philosophy, axis, profile, information, year, period } = course;
+    const { back } = buttons;
     const acadPeriod = `${year}-${period}`;
     return (
       <article className="container">
@@ -19,6 +24,13 @@ class CoursesShow extends React.Component {
           <h2>{name}</h2>
           <small>{acadPeriod}</small>
         </div>
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={() => changeComponent(prev)}
+        >
+          {back}
+        </button>
         <div className="row row-text">
           <h5>Filosofía del curso</h5>
           <p>{philosophy}</p>
@@ -42,6 +54,13 @@ class CoursesShow extends React.Component {
 
 CoursesShow.propTypes = {
   data: PropTypes.object.isRequired,
+  changeComponent: PropTypes.func.isRequired,
 };
 
-export default CoursesShow;
+const mapDispatchToProps = (dispatch) => ({
+  changeComponent: (component) => dispatch(updateDashboard(component)),
+});
+
+const CoursesShowWrapper = connect(null, mapDispatchToProps)(CoursesShow);
+
+export default CoursesShowWrapper;

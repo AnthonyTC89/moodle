@@ -12,7 +12,7 @@ import './CoursesForm.css';
 class CoursesForm extends React.Component {
   constructor(props) {
     super(props);
-    const { item } = props;
+    const { item, session } = props;
     this.state = {
       loading: false,
       message: null,
@@ -24,7 +24,7 @@ class CoursesForm extends React.Component {
       profile: item === null ? '' : item.profile,
       information: item === null ? '' : item.information,
       academic_period_id: item === null ? '' : item.academic_period_id,
-      user_id: item === null ? null : item.user_id,
+      user_id: item === null ? session.user.id : item.user_id,
       academicPeriodsActive: [],
     };
     this.handleChange = this.handleChange.bind(this);
@@ -82,11 +82,6 @@ class CoursesForm extends React.Component {
       this.setState({
         loading: false,
         id: res.data.id,
-        name: res.data.name,
-        philosophy: res.data.philosophy,
-        profile: res.data.profile,
-        information: res.data.information,
-        academic_period_id: res.data.academic_period_id,
         message: 'Procedimiento exitoso',
       });
     } catch (err) {
@@ -108,16 +103,18 @@ class CoursesForm extends React.Component {
         <h2>formulario</h2>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
-        {session.user.status === 1
+        {session.user.status === 1 && id !== null
           ? (
             <input
               className="form-control input-text"
               onChange={this.handleChange}
               placeholder="id de usuario"
               type="number"
+              min={1}
               name="user_id"
               value={user_id}
               required
+              disabled={loading}
             />
           ) : null}
         <input
@@ -127,6 +124,7 @@ class CoursesForm extends React.Component {
           name="name"
           value={name}
           required
+          disabled={loading}
         />
         <textarea
           className="form-control input-text-long"
@@ -135,6 +133,7 @@ class CoursesForm extends React.Component {
           name="philosophy"
           value={philosophy}
           rows="3"
+          disabled={loading}
         />
         <textarea
           className="form-control input-text-long"
@@ -143,6 +142,7 @@ class CoursesForm extends React.Component {
           name="profile"
           value={profile}
           rows="3"
+          disabled={loading}
         />
         <textarea
           className="form-control input-text-long"
@@ -151,6 +151,7 @@ class CoursesForm extends React.Component {
           name="axis"
           value={axis}
           rows="3"
+          disabled={loading}
         />
         <textarea
           className="form-control input-text-long"
@@ -159,6 +160,7 @@ class CoursesForm extends React.Component {
           name="information"
           value={information}
           rows="3"
+          disabled={loading}
         />
         {/* <select className="custom-select" onChange={this.handleChange}>
           <option selected>Periodo Academico</option>

@@ -4,6 +4,6 @@ FactoryBot.define do
     time { "2020-04-29 17:30:34" }
     location { "MyString" }
     status { false }
-    subject { nil }
+    course { nil }
   end
 end

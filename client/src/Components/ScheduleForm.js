@@ -4,21 +4,22 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { buttons } from '../Info.json';
-import './SubjectsForm.css';
+import './ScheduleForm.css';
 
-class SubjectsForm extends React.Component {
+class ScheduleForm extends React.Component {
   constructor(props) {
     super(props);
-    const { item, course } = props;
+    const { schedule, course } = props;
+    const zoom = 'https://us04web.zoom.us/j/78623687786';
     this.state = {
       loading: false,
       message: null,
       error: null,
-      id: item === null ? null : item.id,
-      name: item === null ? '' : item.name,
-      description: item === null ? '' : item.description,
-      information: item === null ? '' : item.information,
-      course_id: item === null ? course.id : item.course_id,
+      id: schedule === null ? null : schedule.id,
+      weekday: schedule === null ? '' : schedule.weekday,
+      time: schedule === null ? '' : schedule.time,
+      location: schedule === null ? zoom : schedule.location,
+      course_id: course.id,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -38,12 +39,12 @@ class SubjectsForm extends React.Component {
       loading: true,
     });
     try {
-      const { id, name, description, information, course_id } = this.state;
-      const data = { name, description, information, course_id };
+      const { id, weekday, time, location, course_id } = this.state;
+      const data = { weekday, time, location, course_id };
 
       const res = id === null
-        ? await axios.post('api/subjects', data)
-        : await axios.put(`api/subjects/${id}`, data);
+        ? await axios.post('api/schedules', data)
+        : await axios.put(`api/schedules/${id}`, data);
 
       this.setState({
         loading: false,
@@ -59,8 +60,7 @@ class SubjectsForm extends React.Component {
   }
 
   render() {
-    const { id, name, description, information, course_id,
-      loading, message, error } = this.state;
+    const { id, weekday, time, location, course_id, loading, message, error } = this.state;
     const { session } = this.props;
     const { add, update, wait } = buttons;
     const btnText = id === null ? add : update;
@@ -76,6 +76,7 @@ class SubjectsForm extends React.Component {
               onChange={this.handleChange}
               placeholder="id de curso"
               type="number"
+              min={1}
               name="course_id"
               value={course_id}
               required
@@ -85,28 +86,29 @@ class SubjectsForm extends React.Component {
         <input
           className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="nombre del tema"
-          name="name"
-          value={name}
+          placeholder="ej. Lun - Mie - Vie"
+          name="weekday"
+          value={weekday}
           required
           disabled={loading}
         />
-        <textarea
-          className="form-control input-text-long"
+        <input
+          className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="Descripción del tema"
-          name="description"
-          value={description}
-          rows="3"
+          placeholder="hora"
+          type="time"
+          name="time"
+          value={time}
+          required
           disabled={loading}
         />
-        <textarea
-          className="form-control input-text-long"
+        <input
+          className="form-control input-text"
           onChange={this.handleChange}
-          placeholder="Información adicional"
-          name="information"
-          value={information}
-          rows="3"
+          placeholder="lugar (link)"
+          name="location"
+          value={location}
+          required
           disabled={loading}
         />
         <button type="submit" className="btn btn-primary" disabled={loading}>
@@ -117,12 +119,12 @@ class SubjectsForm extends React.Component {
   }
 }
 
-SubjectsForm.propTypes = {
-  item: PropTypes.object.isRequired,
+ScheduleForm.propTypes = {
+  schedule: PropTypes.object.isRequired,
   course: PropTypes.object.isRequired,
 };
 
-SubjectsForm.propTypes = {
+ScheduleForm.propTypes = {
   session: PropTypes.object.isRequired,
 };
 
@@ -130,6 +132,6 @@ const mapStateToProps = (state) => ({
   session: state.session,
 });
 
-const SubjectsFormWrapper = connect(mapStateToProps, null)(SubjectsForm);
+const ScheduleFormWrapper = connect(mapStateToProps, null)(ScheduleForm);
 
-export default SubjectsFormWrapper;
+export default ScheduleFormWrapper;

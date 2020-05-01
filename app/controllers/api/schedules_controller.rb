@@ -11,9 +11,9 @@ module Api
 
     # GET /schedules_full
     def index_full
-      @query = 'SELECT sc.id, sc.date, sc.time, sc.location, sc.status, sc.subject_id'
-      @query << ' FROM schedules as sc INNER JOIN subjects as s ON sc.subject_id = s.id'
-      @query << " WHERE sc.subject_id=#{params[:subject_id]}"
+      @query = 'SELECT sc.id, sc.weekday, sc.time, sc.location, sc.status, sc.course_id'
+      @query << ' FROM schedules as sc INNER JOIN courses as c ON sc.course_id = c.id'
+      @query << " WHERE sc.course_id=#{params[:course_id]}"
       @query << ' AND sc.status=true' if params[:session_status] === 4
       @query << ' ORDER BY sc.created_at'
       @schedules = Schedule.connection.select_all(@query).to_a
@@ -32,6 +32,8 @@ module Api
       if @schedule.save
         render json: @schedule, status: :created
       else
+        p "errors: #{@schedule.errors}"
+        p "errors: #{@schedule.errors.full_messages}"
         render json: @schedule.errors, status: :unprocessable_entity
       end
     end
@@ -58,7 +60,7 @@ module Api
 
       # Only allow a trusted parameter "white list" through.
       def schedule_params
-        params.require(:schedule).permit(:date, :time, :location, :status, :subject_id, :session_status)
+        params.require(:schedule).permit(:weekday, :time, :location, :status, :course_id, :session_status)
       end
   end
 end

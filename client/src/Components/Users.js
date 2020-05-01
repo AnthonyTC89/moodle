@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import UsersForm from '../Components/UsersForm';
+import UsersForm from './UsersForm';
 import { usersInfo, buttons } from '../Info.json';
 import './Users.css';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import AcademicPeriodsForm from '../Components/AcademicPeriodsForm';
+import AcademicPeriodsForm from './AcademicPeriodsForm';
 import { academicPeriodsInfo, buttons } from '../Info.json';
 import './AcademicPeriods.css';
 
@@ -90,6 +90,7 @@ class AcademicPeriods extends React.Component {
           className="btn btn-primary"
           type="button"
           onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
+          disabled={loading}
         >
           {formVisible ? back : create}
         </button>
@@ -125,10 +126,10 @@ class AcademicPeriods extends React.Component {
                 <p>{item.id}</p>
               </div>
               <div className="col user-text">
-                <p>{item.year}</p>
+                <p className={item.status ? '' : 'text-line-through'}>{item.year}</p>
               </div>
               <div className="col user-text">
-                <p>{item.period}</p>
+                <p className={item.status ? '' : 'text-line-through'}>{item.period}</p>
               </div>
               <div className="col user-text">
                 <p>{item.information}</p>

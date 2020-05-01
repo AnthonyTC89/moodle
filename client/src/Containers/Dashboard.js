@@ -45,7 +45,11 @@ Dashboard.propTypes = {
   session: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   dashboard: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
+};
+
+Dashboard.defaultProps = {
+  data: {},
 };
 
 const mapStateToProps = (state) => ({

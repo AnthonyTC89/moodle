@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_29_012208) do
+ActiveRecord::Schema.define(version: 2020_04_29_223033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_012208) do
     t.bigint "academic_period_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id", default: 1, null: false
     t.index ["academic_period_id"], name: "index_courses_on_academic_period_id"
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 2020_04_29_012208) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["subject_id"], name: "index_documents_on_subject_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.string "weekday"
+    t.time "time"
+    t.string "location"
+    t.boolean "status", default: true
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_schedules_on_course_id"
   end
 
   create_table "subjects", force: :cascade do |t|
@@ -84,5 +95,6 @@ ActiveRecord::Schema.define(version: 2020_04_29_012208) do
   add_foreign_key "courses", "academic_periods"
   add_foreign_key "courses", "users"
   add_foreign_key "documents", "subjects"
+  add_foreign_key "schedules", "courses"
   add_foreign_key "subjects", "courses"
 end

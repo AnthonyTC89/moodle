@@ -1,54 +1,51 @@
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
-import CoursesForm from './CoursesForm';
-import updateData from '../redux/actions/updateData';
 import updateDashboard from '../redux/actions/updateDashboard';
-import { buttons } from '../Info.json';
-import './Courses.css';
+import ScheduleForm from './ScheduleForm';
+import { buttons, ScheduleInfo } from '../Info.json';
+import './Schedule.css';
 
-class Courses extends React.Component {
+class Schedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: [],
       loading: false,
       message: null,
       error: null,
+      schedules: [],
       itemEdit: null,
       formVisible: false,
     };
     this.handleCloseForm = this.handleCloseForm.bind(this);
     this.handleOpenForm = this.handleOpenForm.bind(this);
     this.handleActive = this.handleActive.bind(this);
-    this.handleChangeComponent = this.handleChangeComponent.bind(this);
   }
 
   componentDidMount() {
-    this.getInfo();
+    this.getSchedules();
   }
 
-  async getInfo() {
+  async getSchedules() {
+    const { session, data } = this.props;
+    const { course } = data;
     this.setState({
       loading: true,
       message: null,
       error: null,
     });
     try {
-      const { session } = this.props;
-      const res = await axios.get('/api/courses_full',
-        { params: { user_id: session.user.id } });
-
+      const res = await axios.get('/api/schedules_full',
+        { params: { course_id: course.id, session_status: session.user.status } });
       this.setState({
-        courses: res.data,
+        schedules: res.data,
         loading: false,
       });
-    } catch (err) {
+    } catch (error) {
       this.setState({
-        error: 'Error en el Servidor',
-        loading: false,
+        message: 'Error en el Servidor',
       });
     }
   }
@@ -64,7 +61,7 @@ class Courses extends React.Component {
     this.setState({
       formVisible: false,
     });
-    this.getInfo();
+    this.getSchedules();
   }
 
   async handleActive(item) {
@@ -73,12 +70,12 @@ class Courses extends React.Component {
     });
     try {
       const data = { status: !item.status };
-      await axios.put(`api/courses/${item.id}`, data);
+      await axios.put(`api/schedules/${item.id}`, data);
       this.setState({
         message: 'Actualizado',
         loading: false,
       });
-      await this.getInfo();
+      await this.getSchedules();
     } catch (err) {
       this.setState({
         error: 'error',
@@ -87,31 +84,39 @@ class Courses extends React.Component {
     }
   }
 
-  async handleChangeComponent(course, name) {
-    const { changeComponent, changeData } = this.props;
-    await changeData({ course, prev: 'Courses' });
-    await changeComponent(name);
-  }
-
   render() {
-    const { courses, loading, message, error, itemEdit, formVisible } = this.state;
-    const { session } = this.props;
-    const { create, edit, active, inactive, wait, back, remove,
-      details, subjects, schedule } = buttons;
+    const { schedules, loading, message, error, formVisible, itemEdit } = this.state;
+    const { data, session, changeComponent } = this.props;
+    const { course, prev } = data;
+    const { edit, wait, active, inactive, remove, back, add } = buttons;
+    const { title } = ScheduleInfo;
     return (
       <section className="container">
-        <h2>Cursos</h2>
-        { session.user.status <= 3
-          ? (
+        <h2>{title}</h2>
+        <h4>{course.name}</h4>
+        <div className="col btn-actions">
+          {session.user.status <= 3
+            ? (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
+                disabled={loading}
+              >
+                {formVisible ? back : add}
+              </button>
+            ) : null}
+          {formVisible ? null : (
             <button
               className="btn btn-primary"
               type="button"
-              onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
+              onClick={() => changeComponent(prev)}
               disabled={loading}
             >
-              {formVisible ? back : create}
+              {back}
             </button>
-          ) : null}
+          )}
+        </div>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {formVisible ? null
@@ -120,14 +125,12 @@ class Courses extends React.Component {
               {session.user.status <= 2
                 ? <div className="col col-text"><h6>id</h6></div>
                 : null}
-              <div className="col col-text"><h6>periodo</h6></div>
-              <div className="col col-text"><h6>nombre</h6></div>
+              <div className="col col-text"><h6>día</h6></div>
+              <div className="col col-text"><h6>hora</h6></div>
+              <div className="col col-text"><h6>link</h6></div>
               {session.user.status <= 3
                 ? <div className="col col-text"><h6>estado</h6></div>
                 : null}
-              <div className="col col-text"><h6>ver</h6></div>
-              <div className="col col-text"><h6>temas</h6></div>
-              <div className="col col-text"><h6>horario</h6></div>
               {session.user.status <= 3
                 ? <div className="col col-text"><h6>acciones</h6></div>
                 : null}
@@ -136,8 +139,8 @@ class Courses extends React.Component {
                 : null}
             </div>
           )}
-        {formVisible ? <CoursesForm item={itemEdit} />
-          : courses.map((item) => (
+        {formVisible ? <ScheduleForm schedule={itemEdit} course={course} />
+          : schedules.map((item) => (
             <div key={uuidv4()} className="row row-user">
               {session.user.status <= 2
                 ? (
@@ -146,10 +149,20 @@ class Courses extends React.Component {
                   </div>
                 ) : null}
               <div className="col col-text">
-                <p>{`${item.year}-${item.period}`}</p>
+                <p className={item.status ? '' : 'text-line-through'}>{item.weekday}</p>
               </div>
               <div className="col col-text">
-                <p className={item.status ? '' : 'text-line-through'}>{item.name}</p>
+                <p>{item.time}</p>
+              </div>
+              <div className="col btn-actions">
+                <a
+                  className="btn btn-primary"
+                  href={item.location}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Zoom
+                </a>
               </div>
               {session.user.status <= 3
                 ? (
@@ -157,43 +170,13 @@ class Courses extends React.Component {
                     <button
                       className="btn btn-warning"
                       type="button"
-                      disabled={loading}
                       onClick={() => this.handleActive(item)}
+                      disabled={loading}
                     >
                       {item.status ? inactive : active}
                     </button>
                   </div>
                 ) : null}
-              <div className="col btn-actions">
-                <button
-                  className="btn btn-info"
-                  type="button"
-                  onClick={() => this.handleChangeComponent(item, 'CoursesShow')}
-                  disabled={loading}
-                >
-                  {details}
-                </button>
-              </div>
-              <div className="col btn-actions">
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                  onClick={() => this.handleChangeComponent(item, 'Subjects')}
-                  disabled={loading}
-                >
-                  {subjects}
-                </button>
-              </div>
-              <div className="col btn-actions">
-                <button
-                  className="btn btn-light"
-                  type="button"
-                  onClick={() => this.handleChangeComponent(item, 'Schedule')}
-                  disabled={loading}
-                >
-                  {schedule}
-                </button>
-              </div>
               {session.user.status <= 3
                 ? (
                   <div className="col btn-actions">
@@ -215,7 +198,7 @@ class Courses extends React.Component {
                       type="button"
                       disabled={loading}
                     >
-                      {loading ? wait : remove}
+                      {loading ? wait : remove }
                     </button>
                   </div>
                 ) : null}
@@ -226,10 +209,10 @@ class Courses extends React.Component {
   }
 }
 
-Courses.propTypes = {
+Schedule.propTypes = {
   session: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
   changeComponent: PropTypes.func.isRequired,
-  changeData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -238,9 +221,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   changeComponent: (component) => dispatch(updateDashboard(component)),
-  changeData: (data) => dispatch(updateData(data)),
 });
 
-const CoursesWrapper = connect(mapStateToProps, mapDispatchToProps)(Courses);
+const ScheduleWrapper = connect(mapStateToProps, mapDispatchToProps)(Schedule);
 
-export default CoursesWrapper;
+export default ScheduleWrapper;

@@ -38,7 +38,8 @@ class Subjects extends React.Component {
     });
     try {
       const { data } = this.props;
-      const res = await axios.get('/api/subjects_full', { params: { course_id: data.id } });
+      const { course } = data;
+      const res = await axios.get('/api/subjects_full', { params: { course_id: course.id } });
 
       this.setState({
         subjects: res.data,
@@ -86,32 +87,46 @@ class Subjects extends React.Component {
     }
   }
 
-  async handleChangeComponent(item, name) {
+  async handleChangeComponent(subject, name) {
     const { changeComponent, changeData, data } = this.props;
-    const params = { item, course: data };
+    const { course } = data;
+    const params = { subject, course, prev: 'Subjects' };
     await changeData(params);
     await changeComponent(name);
   }
 
   render() {
     const { subjects, loading, message, error, itemEdit, formVisible } = this.state;
-    const { session, data } = this.props;
-    const { add, back, inactive, active, details, edit, wait, remove } = buttons;
-    const zoom = 'https://us04web.zoom.us/j/78623687786';
+    const { session, data, changeComponent } = this.props;
+    const { course, prev } = data;
+    const { create, back, inactive, active, details, edit, wait, remove } = buttons;
     return (
       <section className="container">
-        <h2>{data.name}</h2>
         <h3>Temas</h3>
-        { session.user.status <= 3
-          ? (
+        <h4>{course.name}</h4>
+        <div className="col btn-actions">
+          {session.user.status <= 3
+            ? (
+              <button
+                className="btn btn-primary"
+                type="button"
+                onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
+                disabled={loading}
+              >
+                {formVisible ? back : create}
+              </button>
+            ) : null}
+          {formVisible ? null : (
             <button
               className="btn btn-primary"
               type="button"
-              onClick={formVisible ? this.handleCloseForm : () => this.handleOpenForm(null)}
+              onClick={() => changeComponent(prev)}
+              disabled={loading}
             >
-              {formVisible ? back : add}
+              {back}
             </button>
-          ) : null}
+          )}
+        </div>
         {message === null ? null : <p className="text-success">{message}</p>}
         {error === null ? null : <p className="text-danger">{error}</p>}
         {formVisible ? null
@@ -125,7 +140,6 @@ class Subjects extends React.Component {
                 ? <div className="col col-text"><h6>estado</h6></div>
                 : null}
               <div className="col col-text"><h6>ver</h6></div>
-              <div className="col col-text"><h6>sesión</h6></div>
               {session.user.status <= 3
                 ? <div className="col col-text"><h6>acciones</h6></div>
                 : null}
@@ -144,7 +158,7 @@ class Subjects extends React.Component {
                   </div>
                 ) : null}
               <div className="col col-text">
-                <p>{item.name}</p>
+                <p className={item.status ? '' : 'text-line-through'}>{item.name}</p>
               </div>
               {session.user.status <= 3
                 ? (
@@ -152,8 +166,8 @@ class Subjects extends React.Component {
                     <button
                       className="btn btn-warning"
                       type="button"
-                      disabled={loading}
                       onClick={() => this.handleActive(item)}
+                      disabled={loading}
                     >
                       {item.status ? inactive : active}
                     </button>
@@ -164,19 +178,10 @@ class Subjects extends React.Component {
                   className="btn btn-info"
                   type="button"
                   onClick={() => this.handleChangeComponent(item, 'SubjectsShow')}
+                  disabled={loading}
                 >
                   {details}
                 </button>
-              </div>
-              <div className="col btn-actions">
-                <a
-                  className="btn btn-secondary"
-                  href={zoom}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Zoom
-                </a>
               </div>
               {session.user.status <= 3
                 ? (
@@ -185,6 +190,7 @@ class Subjects extends React.Component {
                       className="btn btn-success"
                       type="button"
                       onClick={() => this.handleOpenForm(item)}
+                      disabled={loading}
                     >
                       {edit}
                     </button>

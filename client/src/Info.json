@@ -71,6 +71,9 @@
   "documentsInfo": {
     "title": "Documentos"
   },
+  "ScheduleInfo": {
+    "title": "Horario del curso"
+  },
   "buttons": {
     "login": "Ingresar",
     "signin": "Registrar",
@@ -87,6 +90,7 @@
     "downgrade": "↓",
     "details": "Detalles",
     "subjects": "Temas",
+    "schedule": "Horario",
     "upload": "Guardar",
     "download": "Descargar"
   },

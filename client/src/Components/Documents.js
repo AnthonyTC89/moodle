@@ -136,7 +136,7 @@ class Documents extends React.Component {
     const { title } = documentsInfo;
     return (
       <section className="container">
-        <h3>{title}</h3>
+        <h2>{title}</h2>
         {session.user.status <= 3
           ? (
             <form className="row form-documents" onSubmit={this.handleUploadS3}>
@@ -148,8 +148,9 @@ class Documents extends React.Component {
                   type="file"
                   multiple={false}
                   onChange={this.handleChangeFile}
+                  disabled={loading}
                 />
-                <button className="btn btn-primary" type="submit">
+                <button className="btn btn-primary" type="submit" disabled={loading}>
                   {loading ? wait : upload}
                 </button>
               </div>
@@ -177,7 +178,7 @@ class Documents extends React.Component {
                 </div>
               ) : null}
             <div className="col col-text">
-              <p>{item.key}</p>
+              <p className={item.status ? '' : 'text-line-through'}>{item.key}</p>
             </div>
             {session.user.status <= 3
               ? (
@@ -185,8 +186,8 @@ class Documents extends React.Component {
                   <button
                     className="btn btn-warning"
                     type="button"
-                    disabled={loading}
                     onClick={() => this.handleActive(item)}
+                    disabled={loading}
                   >
                     {item.status ? inactive : active}
                   </button>

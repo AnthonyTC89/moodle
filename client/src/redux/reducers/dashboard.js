@@ -1,10 +1,11 @@
 import UsersForm from '../../Components/UsersForm';
-import Users from '../../Admin/Users';
-import AcademicPeriods from '../../Admin/AcademicPeriods';
+import Users from '../../Components/Users';
+import AcademicPeriods from '../../Components/AcademicPeriods';
 import Courses from '../../Components/Courses';
 import Subjects from '../../Components/Subjects';
 import CoursesShow from '../../Components/CoursesShow';
 import SubjectsShow from '../../Components/SubjectsShow';
+import Schedule from '../../Components/Schedule';
 
 const defaultDashboard = {
   Component: Courses,
@@ -18,6 +19,7 @@ const collection = {
   Subjects,
   CoursesShow,
   SubjectsShow,
+  Schedule,
 };
 
 const dashboard = (state = defaultDashboard, { type, component }) => {
