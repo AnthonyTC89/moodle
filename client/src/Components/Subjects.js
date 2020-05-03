@@ -148,7 +148,7 @@ class Subjects extends React.Component {
                 : null}
             </div>
           )}
-        {formVisible ? <SubjectsForm item={itemEdit} course={data} />
+        {formVisible ? <SubjectsForm item={itemEdit} course={course} />
           : subjects.map((item) => (
             <div key={uuidv4()} className="row row-user">
               {session.user.status <= 2

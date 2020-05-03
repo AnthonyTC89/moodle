@@ -12,19 +12,19 @@ import './CoursesForm.css';
 class CoursesForm extends React.Component {
   constructor(props) {
     super(props);
-    const { item, session } = props;
+    const { course, session } = props;
     this.state = {
       loading: false,
       message: null,
       error: null,
-      id: item === null ? null : item.id,
-      name: item === null ? '' : item.name,
-      philosophy: item === null ? '' : item.philosophy,
-      axis: item === null ? '' : item.axis,
-      profile: item === null ? '' : item.profile,
-      information: item === null ? '' : item.information,
-      academic_period_id: item === null ? '' : item.academic_period_id,
-      user_id: item === null ? session.user.id : item.user_id,
+      id: course === null ? null : course.id,
+      name: course === null ? '' : course.name,
+      philosophy: course === null ? '' : course.philosophy,
+      axis: course === null ? '' : course.axis,
+      profile: course === null ? '' : course.profile,
+      information: course === null ? '' : course.information,
+      academic_period_id: course === null ? '' : course.academic_period_id,
+      user_id: course === null ? session.user.id : course.user_id,
       academicPeriodsActive: [],
     };
     this.handleChange = this.handleChange.bind(this);
@@ -179,7 +179,7 @@ class CoursesForm extends React.Component {
 }
 
 CoursesForm.propTypes = {
-  item: PropTypes.object.isRequired,
+  course: PropTypes.object.isRequired,
 };
 
 CoursesForm.propTypes = {

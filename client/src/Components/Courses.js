@@ -136,7 +136,7 @@ class Courses extends React.Component {
                 : null}
             </div>
           )}
-        {formVisible ? <CoursesForm item={itemEdit} />
+        {formVisible ? <CoursesForm course={itemEdit} />
           : courses.map((item) => (
             <div key={uuidv4()} className="row row-user">
               {session.user.status <= 2
