@@ -37,13 +37,13 @@ module Api
     end
 
     # PATCH/PUT /documents/1
-    # def update
-    #   if @document.update(document_params)
-    #     render json: @document
-    #   else
-    #     render json: @document.errors, status: :unprocessable_entity
-    #   end
-    # end
+    def update
+      if @document.update(document_params)
+        render json: @document
+      else
+        render json: @document.errors, status: :unprocessable_entity
+      end
+    end
 
     # DELETE /documents/1
     def destroy

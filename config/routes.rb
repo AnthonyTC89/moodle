@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :schedules, only: [:create, :update, :destroy]
     get "/schedules_full/", to: "schedules#index_full"
 
-    resources :documents, only: [:create, :destroy]
+    resources :documents, only: [:create, :update, :destroy]
     get "/documents_full/", to: "documents#index_full"
 
     resources :subjects, only: [:create, :update, :destroy]
