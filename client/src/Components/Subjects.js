@@ -37,9 +37,10 @@ class Subjects extends React.Component {
       error: null,
     });
     try {
-      const { data } = this.props;
+      const { data, session } = this.props;
       const { course } = data;
-      const res = await axios.get('/api/subjects_full', { params: { course_id: course.id } });
+      const res = await axios.get('/api/subjects_full',
+        { params: { course_id: course.id, session_status: session.user.status } });
 
       this.setState({
         subjects: res.data,
