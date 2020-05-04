@@ -13,7 +13,8 @@ module Api
     def full_index
       @query = 'SELECT s.id, s.name, s.description, s.information, s.status, s.course_id'
       @query << ' FROM subjects as s INNER JOIN courses as c ON s.course_id = c.id'
-      @query << " WHERE course_id=#{params[:course_id].to_i}"
+      @query << " WHERE s.course_id=#{params[:course_id].to_i}"
+      @query << " AND s.status=true" if params[:session_status].to_i >= 4
       @query << ' ORDER BY s.created_at'
       @subjects = Subject.connection.select_all(@query).to_a
       render json: @subjects
@@ -57,7 +58,7 @@ module Api
 
       # Only allow a trusted parameter "white list" through.
       def subject_params
-        params.require(:subject).permit(:name, :description, :information, :status, :course_id)
+        params.require(:subject).permit(:name, :description, :information, :status, :course_id, :session_status)
       end
   end
 end
