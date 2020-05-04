@@ -13,8 +13,8 @@ module Api
     def index_full
       @query = 'SELECT sc.id, sc.weekday, sc.time, sc.location, sc.status, sc.course_id'
       @query << ' FROM schedules as sc INNER JOIN courses as c ON sc.course_id = c.id'
-      @query << " WHERE sc.course_id=#{params[:course_id]}"
-      @query << ' AND sc.status=true' if params[:session_status] === 4
+      @query << " WHERE sc.course_id=#{params[:course_id].to_i}"
+      @query << ' AND sc.status=true' if params[:session_status].to_i === 4
       @query << ' ORDER BY sc.created_at'
       @schedules = Schedule.connection.select_all(@query).to_a
       render json: @schedules

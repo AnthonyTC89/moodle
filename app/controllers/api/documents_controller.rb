@@ -13,8 +13,8 @@ module Api
     def index_full
       @query = 'SELECT d.id, d.location, d.key, d.status, d.subject_id'
       @query << ' FROM documents as d INNER JOIN subjects as s ON d.subject_id = s.id'
-      @query << " WHERE d.subject_id=#{params[:subject_id]}"
-      @query << ' AND d.status=true' if params[:session_status] === 4
+      @query << " WHERE d.subject_id=#{params[:subject_id].to_i}"
+      @query << ' AND d.status=true' if params[:session_status].to_i === 4
       @query << ' ORDER BY d.created_at'
       @documents = Document.connection.select_all(@query).to_a
       render json: @documents

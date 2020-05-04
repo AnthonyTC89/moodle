@@ -39,7 +39,7 @@ class Courses extends React.Component {
     try {
       const { session } = this.props;
       const res = await axios.get('/api/courses_full',
-        { params: { user_id: session.user.id } });
+        { params: { user_id: session.user.id, session_status: session.user.status } });
 
       this.setState({
         courses: res.data,

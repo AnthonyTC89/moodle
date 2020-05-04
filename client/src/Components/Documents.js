@@ -194,14 +194,18 @@ class Documents extends React.Component {
                 </div>
               ) : null}
             <div className="col btn-actions">
-              <a
-                className="btn btn-info"
-                href={item.location}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {download}
-              </a>
+              {session.user.status === 5
+                ? <p>Regístrese</p>
+                : (
+                  <a
+                    className="btn btn-info"
+                    href={item.location}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {download}
+                  </a>
+                )}
             </div>
             {session.user.status <= 2
               ? (

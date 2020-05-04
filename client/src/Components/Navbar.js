@@ -58,16 +58,18 @@ class Navbar extends React.Component {
                         </div>
                       </div>
                     ) : null}
-                  {user.buttons.map((btn) => (
-                    <button
-                      key={uuidv4()}
-                      className="btn btn-info btn-navbar"
-                      type="button"
-                      onClick={() => changeComponent(btn.name)}
-                    >
-                      {btn.text}
-                    </button>
-                  ))}
+                  {session.user.status <= 4
+                    ? (
+                      user.buttons.map((btn) => (
+                        <button
+                          key={uuidv4()}
+                          className="btn btn-info btn-navbar"
+                          type="button"
+                          onClick={() => changeComponent(btn.name)}
+                        >
+                          {btn.text}
+                        </button>
+                      ))) : null}
                   <div className="btn-group btn-group-navbar">
                     <button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       {info.name}

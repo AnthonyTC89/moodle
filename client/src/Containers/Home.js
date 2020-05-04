@@ -12,6 +12,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentDidUpdate() {
@@ -21,12 +22,28 @@ class Home extends React.Component {
     }
   }
 
+  handleLogin(e) {
+    e.preventDefault();
+    const { changeSession } = this.props;
+    const user = { status: 5 };
+    changeSession(user);
+  }
+
   render() {
     return (
       <>
         <header><Navbar /></header>
         <main className="container">
           <div className="row home-row">
+            <div className="col-12">
+              <button
+                className="btn btn-success"
+                type="button"
+                onClick={this.handleLogin}
+              >
+                Invitado
+              </button>
+            </div>
             <section className="col-12 col-md-6 login-section">
               <LoginForm />
             </section>
@@ -44,6 +61,7 @@ class Home extends React.Component {
 Home.propTypes = {
   session: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  changeSession: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
