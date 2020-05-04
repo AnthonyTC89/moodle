@@ -115,7 +115,7 @@ class Documents extends React.Component {
     });
     try {
       const data = { status: !item.status };
-      await axios.put(`api/subjects/${item.id}`, data);
+      await axios.put(`api/documents/${item.id}`, data);
       this.setState({
         message: 'Actualizado',
         loading: false,
