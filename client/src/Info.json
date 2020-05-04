@@ -11,7 +11,7 @@
     "user": {
       "name" : "user",
       "buttons": [
-        { "name": "UsersForm", "text": "Perfil" }
+        { "name": "Profile", "text": "Perfil" }
       ]
     },
     "info": {
@@ -67,6 +67,14 @@
       "username": "usuario",
       "password": "contraseña"
     }
+  },
+  "profileInfo": {
+    "title": "perfil",
+    "titleUser": "usuario",
+    "titlePerson": "datos personales"
+  },
+  "signinInfo":{
+    "title": "registro"
   },
   "documentsInfo": {
     "title": "Documentos"

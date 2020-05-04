@@ -1,4 +1,4 @@
-import UsersForm from '../../Components/UsersForm';
+import Profile from '../../Components/Profile';
 import Users from '../../Components/Users';
 import AcademicPeriods from '../../Components/AcademicPeriods';
 import Courses from '../../Components/Courses';
@@ -12,7 +12,7 @@ const defaultDashboard = {
 };
 
 const collection = {
-  UsersForm,
+  Profile,
   Users,
   AcademicPeriods,
   Courses,
