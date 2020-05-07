@@ -1,7 +1,7 @@
 <p align="center">
   <h1 align="center">Moodle</h1>
   <p align="center">
-    Project Create with React and RailsAPI
+    Project Create with React, RailsAPI and AWS
     <br>
     <br>
     <a href="https://moodle-pedagogico.herokuapp.com/" target="_blank">Live Demo</a>
@@ -20,11 +20,12 @@
 * [About the Project](#about-the-project)
 * [Built With](#built-with)
 * [Installation](#installation)
+* [Future Features](#future-features)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project is a Moodle.
+This project is a Moodle for a pedagogic school in Peru. A user can create an account of a student in the website. The administrator can update the account of a user to be a professor. A professor can create courses, subjects, schedules, upload documents in the Website. A student can view the courses, subjects, schedules and download the documents. There is guest account to have a view of the courses with less options. 
 
 ### Built With
 * [HTML](https://www.w3.org/html/)
@@ -67,7 +68,10 @@ This project is a Moodle.
   5. return to root folder and run `rails start`
   6. wait until both servers will be initialized
   7. go to [localhost:3000](http://localhost:3000)
-  
+
+### Future Features
+  1. A dashboard for a director of the pedagogic school.
+
 ### Contact
 
 * **[Anthony Tapia Cossio](https://github.com/AnthonyTC89) - [Linkedin](linkedin.com/in/anthony-tapia-cossio) - [Twitter](https://twitter.com/ptonypTC) - [Portfolio](https://portfolio-anthony.herokuapp.com/)**
